@@ -43,7 +43,19 @@ int main(int argc, char *argv[]) {
 }
 
 struct temp *sortByProgramAsc(struct temp *var) {
-	
+	int index;
+	struct temp tempo;
+	for (int i = 0; i < MAX; i++) {
+		index = i;
+		for (int j = i; i < MAX; j++) {
+			if (strcmp(var[i].program, var[j].program) < 0) {
+				index = j;
+			}
+		}
+		tempo = var[index];
+		var[index] = var[i];
+		var[i] = tempo;
+	}
 }
 
 struct info sortByLastNameAsc(struct temp *var) {
@@ -51,7 +63,7 @@ struct info sortByLastNameAsc(struct temp *var) {
 }
 
 void printThisOne(struct temp *var) {
-	
+	printf("")
 }
 
 void printThisTwo(struct info var) {
