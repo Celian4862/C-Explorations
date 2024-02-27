@@ -1,4 +1,4 @@
-﻿#include <stdio.h>
+#include <stdio.h>
 #include <string.h>
 
 #ifndef MAX
@@ -39,16 +39,23 @@ int main(int argc, char *argv[]) {
 	struct info var3 = sortByLastNameAsc(var);	
 	printThisTwo(var3);	
 	
+	// Not included in the given, but I'm sure this wasn't added to avoid giving away part of the solution
+	free(var2);
+	//free(var3.var);
+	
 	return 0;
 }
 
 struct temp *sortByProgramAsc(struct temp *var) {
 	int index;
-	struct temp tempo;
+	struct temp tempo, *returned = (struct temp*) malloc (sizeof(struct temp) * MAX);
+	for (int i = 0; i < MAX; i++) {
+		returned[i] = var[i];
+	}
 	for (int i = 0; i < MAX; i++) {
 		index = i;
-		for (int j = i; j < MAX; j++) {
-			if (strcmp(var[i].program, var[j].program) > 0) {
+		for (int j = i + 1; j < MAX; j++) {
+			if (strcmp(returned[i].program, var[j].program) > 0) {
 				index = j;
 			}
 		}
@@ -56,24 +63,26 @@ struct temp *sortByProgramAsc(struct temp *var) {
 		var[index] = var[i];
 		var[i] = tempo;
 	}
+	return returned;
 }
 
 struct info sortByLastNameAsc(struct temp *var) {
 	int index;
 	struct temp tempo;
-	struct info tempr;
+	struct info returned;
 	for (int i = 0; i < MAX; i++) {
 		index = i;
 		for (int j = i; j < MAX; j++) {
-			if (strcmp(var[i].lname, var[j].lname) > 0) {
+			if (strcmp(returner.var[i].lname, returned.var[j].lname) > 0) {
 				index = j;
 			}
 		}
-		tempo = var[index];
-		var[index] = var[i];
-		var[i] = tempo;
-		tempr.var[i] = var[i];
+		tempo = returned.var[index];
+		returned.var[index] = returned.var[i];
+		returned.var[i] = tempo;
+		returned.var[i] = returned.var[i];
 	}
+	return returned;
 }
 
 void printThisOne(struct temp *var) {
@@ -87,3 +96,6 @@ void printThisTwo(struct info var) {
 		printf("%s, %s, %s, %d\n", var.var[i].fname, var.var[i].lname, var.var[i].program, var.var[i].age);
 	}
 }
+
+#undef MAX
+#undef MAX_CHAR
