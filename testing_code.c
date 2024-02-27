@@ -47,8 +47,8 @@ struct temp *sortByProgramAsc(struct temp *var) {
 	struct temp tempo;
 	for (int i = 0; i < MAX; i++) {
 		index = i;
-		for (int j = i; i < MAX; j++) {
-			if (strcmp(var[i].program, var[j].program) < 0) {
+		for (int j = i; j < MAX; j++) {
+			if (strcmp(var[i].program, var[j].program) > 0) {
 				index = j;
 			}
 		}
@@ -59,13 +59,31 @@ struct temp *sortByProgramAsc(struct temp *var) {
 }
 
 struct info sortByLastNameAsc(struct temp *var) {
-	
+	int index;
+	struct temp tempo;
+	struct info tempr;
+	for (int i = 0; i < MAX; i++) {
+		index = i;
+		for (int j = i; j < MAX; j++) {
+			if (strcmp(var[i].lname, var[j].lname) > 0) {
+				index = j;
+			}
+		}
+		tempo = var[index];
+		var[index] = var[i];
+		var[i] = tempo;
+		tempr.var[i] = var[i];
+	}
 }
 
 void printThisOne(struct temp *var) {
-	printf("")
+	for (int i = 0; i < MAX; i++) {
+		printf("%s, %s, %s, %d\n", var[i].fname, var[i].lname, var[i].program, var[i].age);
+	}
 }
 
 void printThisTwo(struct info var) {
-	
+	for (int i = 0; i < MAX; i++) {
+		printf("%s, %s, %s, %d\n", var.var[i].fname, var.var[i].lname, var.var[i].program, var.var[i].age);
+	}
 }
