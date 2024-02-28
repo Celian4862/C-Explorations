@@ -6,8 +6,8 @@
 #define MAX_SIZE 100
 #endif
 
-void push(int*, int*);
-void pop(int*, int*); // Don't forget to typecast int since it was supposed to be int in the first place
+void push(int*, int*, int*);
+void pop(int*, int*);
 void print(int*, int*);
 
 int main() {
