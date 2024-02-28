@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #ifndef MAX
 #define MAX 5
@@ -28,21 +29,26 @@ void printThisOne(struct temp *var);
 void printThisTwo(struct info var);
 
 int main(int argc, char *argv[]) {
-	struct temp var[MAX] = {{"Chris","Maderazo","BSCOMPE",51},
-						  {"John","Duterte","BSIT",30},
-						  {"asdf","qwer","BSCS",19},
-						  {"wert","sdfg","BSIT",20},
-						  {"sdfg","hdfgh","BSCS",30}};
+	struct temp var[MAX] = {
+		{"Chris","Evans","BSCPE",51},
+		{"John","Doe","BSIT",30},
+		{"asdf","qwer","BSCS",19},
+		{"wert","sdfg","BSIT",20},
+		{"sdfg","hdfgh","BSCS",30}
+	};
 	struct temp *var2 = sortByProgramAsc(var);
 	printThisOne(var2);
 	
+	printf("\n");				  
+						  
 	struct info var3 = sortByLastNameAsc(var);	
 	printThisTwo(var3);	
-	
-	// Not included in the given, but I'm sure this wasn't added to avoid giving away part of the solution
+
 	free(var2);
-	//free(var3.var);
 	
+	if (argc == 3)
+		printf("\n%s %s\n", argv[1], argv[2]);
+
 	return 0;
 }
 
@@ -52,16 +58,20 @@ struct temp *sortByProgramAsc(struct temp *var) {
 	for (int i = 0; i < MAX; i++) {
 		returned[i] = var[i];
 	}
-	for (int i = 0; i < MAX; i++) {
+	for (int i = 0; i < MAX - 1; i++) {
 		index = i;
 		for (int j = i + 1; j < MAX; j++) {
-			if (strcmp(returned[i].program, var[j].program) > 0) {
+			if (strcmp(returned[index].program, returned[j].program) > 0) {
 				index = j;
+			} else if (strcmp(returned[index].program, returned[j].program) == 0) {
+				if (strcmp(returned[index].lname, returned[j].lname) > 0) {
+					index = j;
+				}
 			}
 		}
-		tempo = var[index];
-		var[index] = var[i];
-		var[i] = tempo;
+		tempo = returned[index];
+		returned[index] = returned[i];
+		returned[i] = tempo;
 	}
 	return returned;
 }
@@ -71,16 +81,18 @@ struct info sortByLastNameAsc(struct temp *var) {
 	struct temp tempo;
 	struct info returned;
 	for (int i = 0; i < MAX; i++) {
+		returned.var[i] = var[i];
+	}
+	for (int i = 0; i < MAX; i++) {
 		index = i;
 		for (int j = i; j < MAX; j++) {
-			if (strcmp(returner.var[i].lname, returned.var[j].lname) > 0) {
+			if (strcmp(returned.var[index].lname, returned.var[j].lname) > 0) {
 				index = j;
 			}
 		}
 		tempo = returned.var[index];
 		returned.var[index] = returned.var[i];
 		returned.var[i] = tempo;
-		returned.var[i] = returned.var[i];
 	}
 	return returned;
 }
