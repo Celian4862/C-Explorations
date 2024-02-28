@@ -1,113 +1,53 @@
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 
-#ifndef MAX
-#define MAX 5
+#ifndef MAX_SIZE
+#define MAX_SIZE 100
 #endif
 
-#ifndef MAX_CHAR
-#define MAX_CHAR 20
-#endif
+void push(int*, int*);
+void pop(int*, int*);
+void print(int*, int*);
 
-struct temp
-{
-	char fname[MAX_CHAR];	
-	char lname[MAX_CHAR];	
-	char program[MAX_CHAR];
-	int age;
-};
-
-struct info
-{
-	struct temp var[MAX];
-};
-
-struct temp *sortByProgramAsc(struct temp *var);
-struct info sortByLastNameAsc(struct temp *var);
-void printThisOne(struct temp *var);
-void printThisTwo(struct info var);
-
-int main(int argc, char *argv[]) {
-	struct temp var[MAX] = {
-		{"Chris","Evans","BSCPE",51},
-		{"John","Doe","BSIT",30},
-		{"asdf","qwer","BSCS",19},
-		{"wert","sdfg","BSIT",20},
-		{"sdfg","hdfgh","BSCS",30}
-	};
-	struct temp *var2 = sortByProgramAsc(var);
-	printThisOne(var2);
-	
-	printf("\n");				  
-						  
-	struct info var3 = sortByLastNameAsc(var);	
-	printThisTwo(var3);	
-
-	free(var2);
-	
-	if (argc == 3)
-		printf("\n%s %s\n", argv[1], argv[2]);
-
+int main() {
+	int action, stack[MAX_SIZE], last_ind = 0;
+	void (*acts[3])(int*, int*) = {push, pop, print};
+	do {
+		system("cls");
+		printf("Actions menu:\n1. Push\n2. Pop\n3. Show stack\n4. Exit\n\nInput action number: ");
+		scanf("%d", &action);
+		if (action > 4 || action < 1) {
+			printf("Invalid choice.\n");
+			continue;
+		}
+		acts[action - 1](stack, &last_ind);
+	} while (action != 4);
 	return 0;
 }
 
-struct temp *sortByProgramAsc(struct temp *var) {
-	int index;
-	struct temp tempo, *returned = (struct temp*) malloc (sizeof(struct temp) * MAX);
-	for (int i = 0; i < MAX; i++) {
-		returned[i] = var[i];
-	}
-	for (int i = 0; i < MAX - 1; i++) {
-		index = i;
-		for (int j = i + 1; j < MAX; j++) {
-			if (strcmp(returned[index].program, returned[j].program) > 0) {
-				index = j;
-			} else if (strcmp(returned[index].program, returned[j].program) == 0) {
-				if (strcmp(returned[index].lname, returned[j].lname) > 0) {
-					index = j;
-				}
-			}
+void push(int stack[], int* last_ind) {
+	char char_input;
+	int input;
+	do {
+		printf("What would you like to push? Enter an integer here (and enter 'c' to cancel): ");
+		scanf("%c", &char_input);
+		if (isalpha(char_input)) {
+			printf("Invalid input. Enter an integer.\n");
+		} else if (char_input == 'c') {
+			printf("Push canceled.\n");
+			return;
 		}
-		tempo = returned[index];
-		returned[index] = returned[i];
-		returned[i] = tempo;
-	}
-	return returned;
+	} while (isalpha(char_input));
+	input = atoi(&char_input);
+	stack[*last_ind] = input;
+	(*last_ind)++;
 }
 
-struct info sortByLastNameAsc(struct temp *var) {
-	int index;
-	struct temp tempo;
-	struct info returned;
-	for (int i = 0; i < MAX; i++) {
-		returned.var[i] = var[i];
-	}
-	for (int i = 0; i < MAX; i++) {
-		index = i;
-		for (int j = i; j < MAX; j++) {
-			if (strcmp(returned.var[index].lname, returned.var[j].lname) > 0) {
-				index = j;
-			}
-		}
-		tempo = returned.var[index];
-		returned.var[index] = returned.var[i];
-		returned.var[i] = tempo;
-	}
-	return returned;
+void pop (int stack[], int* last_ind) {
+	return;
 }
 
-void printThisOne(struct temp *var) {
-	for (int i = 0; i < MAX; i++) {
-		printf("%s, %s, %s, %d\n", var[i].fname, var[i].lname, var[i].program, var[i].age);
-	}
+void print(int stack[], int* last_ind) {
+	return;
 }
-
-void printThisTwo(struct info var) {
-	for (int i = 0; i < MAX; i++) {
-		printf("%s, %s, %s, %d\n", var.var[i].fname, var.var[i].lname, var.var[i].program, var.var[i].age);
-	}
-}
-
-#undef MAX
-#undef MAX_CHAR
