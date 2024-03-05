@@ -14,8 +14,10 @@ int main() {
 
 	// Get the sentences necessary for the task
 	getSentences(sentence1, sentence2);
-	// Store the string length of the shorter sentence to avoid redundancy
+	// Store the string length of the shorter sentence to avoid redundant checks in the loop
 	int size = compareSTRLEN(sentence1, sentence2);
+
+    
 
 	return 0;
 }
