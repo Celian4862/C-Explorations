@@ -8,10 +8,10 @@
 #endif
 
 void getSentences(char*, char*);
-int compareSTRLEN(char*, char*);
 void string_tolower(char*, int);
 void remove_special(char*, int);
 char** find_common_words(char*, char*, int);
+void printWords(char**, int);
 
 int main() {
 	system("cls");
@@ -36,7 +36,7 @@ int main() {
 	// Dynamically allocated by the function.
 	char **words = find_common_words(sentence1, sentence2, &word_count);
 
-	printWords(words);
+	printWords(words, word_count);
 
 	free(sentence1);
 	free(sentence2);
@@ -55,14 +55,6 @@ void getSentences(char *sentence1, char *sentence2) {
 	printf("Enter another sentence (max 100 characters): ");
 	scanf(" %[^\n]", sentence2);
 	sentence2 = (char*) realloc(sentence2, strlen(sentence2));
-}
-
-int compareSTRLEN(char *sentence1, char *sentence2) {
-	if (strlen(sentence1) < strlen(sentence2)) {
-		return strlen(sentence1);
-	} else {
-		return strlen(sentence2);
-	}
 }
 
 void string_tolower(char s[], int size) {
@@ -93,4 +85,13 @@ char** find_common_words(char s1[], char s2[], int *word_count) {
 		}
 		token1 = strtok(NULL, " ");
 		token2 = strtok(NULL, " ");
+	}
+	*word_count = i;
+	return words;
+}
+
+void printWords(char s[][], int word_count) {
+	for (int i = 0; i < word_count; i++) {
+		printf("%s\n", s[i]);
+	}
 }
