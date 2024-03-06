@@ -1,11 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
+#ifndef MAX_CHAR
 #define MAX_CHAR 100
+#endif
 
 void getSentences(char*, char*);
 int compareSTRLEN(char*, char*);
+void string_tolower(char*, int);
+void remove_special(char*, int);
 
 int main() {
 	system("cls");
@@ -16,8 +21,16 @@ int main() {
 	getSentences(sentence1, sentence2);
 	// Store the string length of the shorter sentence to avoid redundant checks in the loop
 	int size = compareSTRLEN(sentence1, sentence2);
+	// To make typing shorter, create variables to store the string lengths of the sentences.
+	int size1 = strlen(sentence1), size2 = strlen(sentence2);
 
-    
+	// Make both strings lowercase to deal with them easier.
+	string_tolower(sentence1, size1);
+	string_tolower(sentence2, size2);
+
+	// Remove special characters from both strings
+	remove_special(sentence1, size1);
+	remove_special(sentence2, size2);
 
 	return 0;
 }
@@ -37,5 +50,19 @@ int compareSTRLEN(char *sentence1, char *sentence2) {
 		return strlen(sentence1);
 	} else {
 		return strlen(sentence2);
+	}
+}
+
+void string_tolower(char s[], int size) {
+	for (int i = 0; i < size; i++) {
+		s[i] = tolower(s[i]);
+	}
+}
+
+void remove_special(char s[], int size) {
+	for (int i = 0; i < size; i++) {
+		if (iscntrl(s[i]) && s[i] != '\0' || ispunct(s[i])) {
+			s[i] = ' ';
+		}
 	}
 }
