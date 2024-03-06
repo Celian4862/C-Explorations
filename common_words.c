@@ -10,7 +10,7 @@
 void getSentences(char*, char*);
 void string_tolower(char*, int);
 void remove_special(char*, int);
-char** find_common_words(char*, char*, int);
+char** find_common_words(char*, char*, int*);
 void printWords(char**, int);
 
 int main() {
@@ -48,13 +48,21 @@ int main() {
 
 // Function is special: it has to receive dynamically allocated strings, or else an error may occur.
 void getSentences(char *sentence1, char *sentence2) {
-	printf("Enter a sentence (max 100 characters: ");
+	printf("Enter a sentence (max 100 characters): ");
 	scanf(" %[^\n]", sentence1);
 	sentence1 = (char*) realloc(sentence1, strlen(sentence1));
 
 	printf("Enter another sentence (max 100 characters): ");
 	scanf(" %[^\n]", sentence2);
 	sentence2 = (char*) realloc(sentence2, strlen(sentence2));
+}
+
+int compareSTRLEN(char s1[], char s2[]) {
+	if (strlen(s1) < strlen(s2)) {
+		return strlen(s1);
+	} else {
+		return strlen(s2);
+	}
 }
 
 void string_tolower(char s[], int size) {
@@ -76,12 +84,13 @@ char** find_common_words(char s1[], char s2[], int *word_count) {
 	char *token1 = strtok(s1, " "), *token2 = strtok(s2, " ");
 	// Initialise the array of words.
 	char **words = (char**) malloc (sizeof(char*));
-	*words = (char*) malloc ();
+	*words = (char*) malloc (compareSTRLEN(s1, s2));
 	// Initialise variables for loop conditions.
 	int i = 0;
 	while (token1) {
-		if (!strcmp(token1, token2) {
+		if (!strcmp(token1, token2)) {
 			strcpy(words[i++], token1);
+			words = (char**) realloc (words, sizeof(char**) + (i + 1));
 		}
 		token1 = strtok(NULL, " ");
 		token2 = strtok(NULL, " ");
@@ -90,7 +99,7 @@ char** find_common_words(char s1[], char s2[], int *word_count) {
 	return words;
 }
 
-void printWords(char s[][], int word_count) {
+void printWords(char **s, int word_count) {
 	for (int i = 0; i < word_count; i++) {
 		printf("%s\n", s[i]);
 	}
