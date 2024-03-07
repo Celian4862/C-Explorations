@@ -81,7 +81,9 @@ int main() {
 
 	free(sentence1);
 	free(sentence2);
-	free(*words);
+	for (int i = 0; i < word_count; i++) {
+		free(words[i]);
+	}
 	free(words);
 
 	return 0;
