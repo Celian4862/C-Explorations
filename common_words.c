@@ -1,3 +1,42 @@
+// For testing purposes on pythontutor.com; it requires a smaller code size, but that might be less readable by humans.
+/*
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+int main() {
+  	char *sentence1 = (char*) malloc (13), *sentence2 = (char*) malloc (12);
+  	strcpy(sentence1, "they see us ");
+  	strcpy(sentence2, "you see us ");
+  	int word_count = 0;
+  	char *saveptr1, *saveptr2, *token1 = strtok_r(sentence1, " ", &saveptr1), **words = (char**) malloc (sizeof(char*)), *s2_copy = (char*) malloc (strlen(sentence2) + 1);
+  	*words = (char*) malloc (12);
+  	strcpy(s2_copy, sentence2);
+  	while (token1) {
+    strcpy(sentence2, s2_copy);
+    char *token2 = strtok_r(sentence2, " ", &saveptr2);
+    while (token2) {
+      	if (!strcmp(token1, token2)) {
+                strcpy(words[(word_count)++], token1);
+                words = (char**) realloc (words, sizeof(char*) * ((word_count) + 1));
+                words[(word_count) - 1] = (char*) realloc (words[(word_count) - 1], strlen(words[(word_count) - 1]) + 1);
+                words[(word_count)] = (char*) malloc (12);
+            }
+            token2 = strtok_r(NULL, " ", &saveptr2);
+        }
+        token1 = strtok_r(NULL, " ", &saveptr1);
+  	}
+	free(words[(*word_count)]);
+  	words = (char**) realloc (words, sizeof(char*) * (word_count));
+	free(s2_copy);
+  	free(sentence1);
+  	free(sentence2);
+  	free(*words);
+  	free(words);
+  	return 0;
+}
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -83,23 +122,39 @@ int find_shorter_string(char *s1, char *s2) {
 
 // Progress note: something is wrong with strtok; it's changing the strings, but also not remembering the first string, so that's why the loop ends early. I wonder how to solve this....
 char** find_common_words(char *s1, char *s2, int *word_count) {
-	// Initialise the tokens.
-	char *token1 = strtok(s1, " "), *token2;
+	// Initialise the character pointers needed for strtok_r.
+	char *saveptr1;
+	char *saveptr2;
+	// Initialise the first token.
+	char *token1 = strtok_r(s1, " ", &saveptr1);
 	// Initialise the array of words.
 	char **words = (char**) malloc (sizeof(char*));
-	*words = (char*) malloc (find_shorter_string(s1, s2));
+	// Initialise a size to store the shorter string to avoid redundant function calls.
+	int shorter_string = find_shorter_string(s1, s2);
+	*words = (char*) malloc (shorter_string + 1);
+	// Create a string to copy s2 (nested strtok_r won't work if s2 is already NULL after one iteration).
+	char *s2_copy = (char*) malloc (strlen(s2) + 1);
+	strcpy(s2_copy, s2);
+
 	while (token1) {
-		token2 = strtok(s2, " ");
+		// Make sure that s2 always retains its original string before being modified once more.
+		strcpy(s2, s2_copy);
+		// Initialise second token.
+		char *token2 = strtok_r(s2, " ", &saveptr2);
 		while (token2) {
 			if (!strcmp(token1, token2)) {
 				strcpy(words[(*word_count)++], token1);
-				words = (char**) realloc (words, sizeof(char**) * ((*word_count) + 1));
-				*words = (char*) realloc (words, find_shorter_string(s1, s2) * ((*word_count) + 1));
+				words = (char**) realloc (words, sizeof(char*) * ((*word_count) + 1));
+				words[(*word_count) - 1] = (char*) realloc (words[(*word_count) - 1], strlen(words[(*word_count) - 1]) + 1);
+				words[(*word_count)] = (char*) malloc (shorter_string + 1);
 			}
-			token2 = strtok(NULL, " ");
+			token2 = strtok_r(NULL, " ", &saveptr2);
 		}
-		token1 = strtok(NULL, " ");
+		token1 = strtok_r(NULL, " ", &saveptr1);
 	}
+	free(words[(*word_count)]);
+	words = (char**) realloc (words, sizeof(char*) * (*word_count));
+	free(s2_copy);
 	return words;
 }
 
