@@ -8,7 +8,6 @@
 #endif
 
 int main() {
-    system("clear");
 	char *s1 = (char*) malloc (MAX + 1), *s2 = (char*) malloc (MAX + 1), **words = (char**) malloc (sizeof(char*)), *saveptr1, *saveptr2, *token1, *token2, *s2_copy;
 	printf("Enter a sentence (max 100 characters): ");
 	scanf(" %[^\n]", s1);
