@@ -6,7 +6,6 @@ Task: Ask for a word and check if its palindrome. Implement palindrome checking 
 #include <string.h>
 
 #define STACK_MAX 10
-
 typedef struct stack {
     char letter;
     int index;
