@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <unistd.h>
 
 #define MAX 10
 
@@ -17,6 +18,7 @@ void push(int stack[], int *top, int value) {
     }
     stack[++(*top)] = value;
     printf("Value added successfully.\n\n");
+
     sleep(1);
 }
 
@@ -31,13 +33,12 @@ int pop(int stack[], int *top) {
 }
 
 int main() {
-    int stack[10], top = -1, choice = 0; // Testing with stack size 10
+    int stack[10], top = -1, choice = 0, value; // Testing with stack size 10
     while (choice != 6) {
         printf("Stack testing programme! Choose a stack process:\n1. Push\n2. Pop\n3. Display Top\n4. Display all\n5. Check if empty\n6. End\nInput here: ");
         scanf("%d", &choice);
         switch (choice) {
             case 1:
-                int value;
                 printf("Input an integer that you'd like to add: ");
                 scanf("%d", &value);
                 push(stack, &top, value);

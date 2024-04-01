@@ -8,6 +8,6 @@ typedef struct {
 } sizing;
 
 int main() {
-    printf("%d\n", sizeof(sizing));
+    printf("%lu\n", sizeof(sizing));
     return 0;
 }

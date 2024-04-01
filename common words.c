@@ -7,6 +7,8 @@
 #define MAX 100
 #endif
 
+/* For some reason, this isn't working on gcc, but it works on other compilers such as OnlineGDB. */
+
 int main() {
     // Variable declarations
     // s1 and s2 for storing the sentences
