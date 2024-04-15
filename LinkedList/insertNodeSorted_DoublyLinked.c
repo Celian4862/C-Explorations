@@ -11,6 +11,8 @@ node createNewNode(int);
 void insertSortedLinkedListElement(node, int);
 void printList(node);
 node findTrueHead(node);
+node findTail(node);
+void freeList(node);
 
 int main() {
     int n;
@@ -27,6 +29,9 @@ int main() {
         head = findTrueHead(head);
     }
     printList(head);
+
+    node tail = findTail(head);
+    freeList(tail);
     
     return 0;
 }
@@ -42,7 +47,7 @@ node createNewNode(int n) {
 void insertSortedLinkedListElement(node head, int n) {
     node newNode = createNewNode(n);
     node trav = head;
-    for (; trav != NULL; trav = trav->next) {
+    for (; trav->next != NULL; trav = trav->next) {
         if (newNode->data < trav->data) {
             newNode->next = trav;
             newNode->prev = trav->prev;
@@ -52,6 +57,16 @@ void insertSortedLinkedListElement(node head, int n) {
             trav->prev = newNode;
             return;
         }
+    }
+    // The for loop ended before doing checks with the last node in order to ensure the last resort does not cause segmentation fault.
+    if (newNode->data < trav->data) {
+        newNode->next = trav;
+        newNode->prev = trav->prev;
+        if (newNode->prev != NULL) {
+            newNode->prev->next = newNode;
+        }
+        trav->prev = newNode;
+        return;
     }
     // If the new node is the largest element in the list (i.e. it should be the last element)
     trav->next = newNode;
@@ -71,4 +86,20 @@ node findTrueHead(node head) {
     for (; trav->prev != NULL; trav = trav->prev);
     head = trav;
     return head;
+}
+
+node findTail(node head) {
+    node trav = head, tail;
+    for (; trav->next != NULL; trav = trav->next);
+    tail = trav;
+    return tail;
+}
+
+void freeList(node tail) {
+    node trav = tail->prev;
+    for (; trav->prev != NULL; trav = trav->prev) {
+        free(trav->next);
+    }
+    // When trav reaches the head
+    free(trav);
 }
