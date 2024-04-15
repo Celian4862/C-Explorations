@@ -45,17 +45,15 @@ void insertSortedLinkedListElement(node head, int n) {
     for (; trav != NULL; trav = trav->next) {
         if (newNode->data < trav->data) {
             newNode->next = trav;
-            trav-;
-            trav = trav->prev;
-            if (trav->prev == NULL) {
-                return;
+            newNode->prev = trav->prev;
+            if (newNode->prev != NULL) {
+                newNode->prev->next = newNode;
             }
-            trav = trav->prev;
-            trav->next = newNode;
-            newNode->prev = trav;
+            trav->prev = newNode;
             return;
         }
     }
+    // If the new node is the largest element in the list (i.e. it should be the last element)
     trav->next = newNode;
     newNode->prev = trav;
 }
