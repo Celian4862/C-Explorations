@@ -4,7 +4,6 @@
 #include <stdlib.h>
 
 int main() {
-	system("cls");
 	int height;
 	printf("Enter the height of the triangle: ");
 	scanf("%d", &height);
