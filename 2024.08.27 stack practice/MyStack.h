@@ -1,9 +1,10 @@
-#include <stdio.h>
 #include <stdbool.h>
+#include "Student.h";
+
 #define MAX 5
 
 typedef struct {
-    int elems[MAX];
+    Student elems[MAX];
     int count;
 } Stack;
 
@@ -12,6 +13,8 @@ void initStack(Stack*);
 bool isEmpty(Stack);
 bool isFull(Stack);
 void visualise(Stack);
-bool push(Stack*, int);
+bool push(Stack*, Student);
 bool pop(Stack*);
-int peek(Stack);
+Student peek(Stack);
+
+Stack getStudent(String program);

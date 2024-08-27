@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdbool.h>
-#include "MyStack.c"
+// #include "MyStack.c"
 
 int main() {
-    Stack stackA = createStack();
+    // Stack stackA = createStack();
 
-    visualise(stackA);
+    /* visualise(stackA);
     push(&stackA, 10);
     visualise(stackA);;
     push(&stackA, 5);
@@ -22,7 +22,7 @@ int main() {
     for (int i = 0; i < 10; i++) {
         pop(&stackA);
         visualise(stackA);
-    }
+    } */
     
     printf("\n\n");
     return 0;
