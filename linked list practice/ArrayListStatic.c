@@ -16,7 +16,7 @@ void displayList(List list) {
 }
 
 void insertFront(List *list, int value) {
-	memcpy(list->elems + 1, list->elems, sizeof(int) * list->count);
+	memmove(list->elems + 1, list->elems, sizeof(int) * list->count);
 	list->elems[0] = value;
 	list->count++;
 }
@@ -26,13 +26,13 @@ void insertRear(List *list, int value) {
 }
 
 void insertInto(List *list, int value, int position) {
-	memcpy(list->elems + position + 1, list->elems + position, sizeof(int) * (list->count - position));
+	memmove(list->elems + position + 1, list->elems + position, sizeof(int) * (list->count - position));
 	list->elems[position] = value;
 	list->count++;
 }
 
 void deleteFront(List *list) {
-	memcpy(list->elems, list->elems + 1, sizeof(int) * (list->count - 1));
+	memmove(list->elems, list->elems + 1, sizeof(int) * (list->count - 1));
 	list->count--;
 }
 
@@ -41,6 +41,6 @@ void deleteRear(List *list) {
 }
 
 void deleteFrom(List *list, int position) {
-	memcpy(list->elems + position, list->elems + position + 1, sizeof(int) * (list->count - position));
+	memmove(list->elems + position, list->elems + position + 1, sizeof(int) * (list->count - position));
 	list->count--;
 }
