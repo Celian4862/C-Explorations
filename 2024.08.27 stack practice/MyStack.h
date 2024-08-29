@@ -17,4 +17,5 @@ bool push(Stack*, Student);
 bool pop(Stack*);
 Student peek(Stack);
 
-Stack getStudent(String program);
+Stack getStudent(Stack, String);
+void sortStudent(Stack *s);

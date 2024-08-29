@@ -7,5 +7,5 @@ typedef struct {
     int year;
 } Student;
 
-Student createStudent(int studID, String studName, String program, int year);
-void displayStudent(Student s);
+Student createStudent(int, String, String, int);
+void displayStudent(Student);

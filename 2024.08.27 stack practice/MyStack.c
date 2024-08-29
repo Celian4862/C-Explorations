@@ -23,15 +23,15 @@ bool isFull (Stack s) {
 void visualise (Stack s) {
     printf("List {");
     for (int i = 0; i < s.count; ++i) {
-        printf("%d", s.elems[i]);
+        displayStudent(s.elems[i]);
         if (i < s.count - 1) {
-            printf(", ");
+            printf("\n");
         }
     }
     printf("}\n");
 }
 
-bool push (Stack *s, int elem) {
+bool push (Stack *s, Student elem) {
     if (!isFull(*s)) {
         s->elems[(s->count)++] = elem;
         return true;
@@ -47,6 +47,44 @@ bool pop (Stack *s) {
     return false;
 }
 
-int peek(Stack s) {
+Student peek(Stack s) {
     return s.elems[s.count];
+}
+
+Stack getStudent(Stack s, String program) {
+    Stack result = createStack();
+    for (int i = 0; i < s.count; ++i) {
+        if (strcmp(s.elems[i].program, program) == 0) {
+            push(&result, s.elems[i]);
+        }
+    }
+    return result;
+}
+
+void sortStudent(Stack *s) {
+    for (int i = 0; i < s->count; ++i) {
+        for (int j = i + 1; j < s->count; ++j) {
+            if (s->elems[i].year > s->elems[j].year) {
+                Student temp = s->elems[i];
+                s->elems[i] = s->elems[j];
+                s->elems[j] = temp;
+            }
+        }
+    }
+}
+
+Student createStudent(int studID, String studName, String program, int year) {
+    Student s;
+    s.studID = studID;
+    strcpy(s.studName, studName);
+    strcpy(s.program, program);
+    s.year = year;
+    return s;
+}
+
+void displayStudent(Student s) {
+    printf("Student ID: %d\n", s.studID);
+    printf("Student Name: %s\n", s.studName);
+    printf("Program: %s\n", s.program);
+    printf("Year: %d\n", s.year);
 }
