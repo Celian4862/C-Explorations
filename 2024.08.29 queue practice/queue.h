@@ -77,16 +77,25 @@ Student front(QueueADT *q) {
 
 // Display all elements in the array based on the index, value, and indicator. Do not display an index's value if it is not part of the queue
 void visualise(QueueADT q) {
-    // Index, value, indicator
+    String studID;
+    printf("-%13s%-13s%Indicator\n", "Index", "Student ID");
     for (int i = 0; i < q.max; i++) {
-        printf("Index\t\tValue\t\tIndicator\n");
-        printf("%d\t\tStud%d\t\t%c\n", i, q.studList[i].studID, (i == q.front) ? 'F' : (i == q.rear) ? 'R' : ' ');
+        if (i >= q.front && i <= q.rear) {
+            sprintf(studID, "%d", q.studList[i].studID);
+        } else {
+            studID = "";
+        }
+        printf("%-13d%-13s%c\n", i, studID, (i == q.front) ? 'F' : (i == q.rear) ? 'R' : ' ');
     }
 }
 
 // Display all elements in the queue in order of front to rear
 void display(QueueADT q) {
-    for (int i = (q.front + 1) % q.max; i != (q.rear + 1) % q.max; i = (i + 1) % q.max) {
+    if (isEmpty(q)) {
+        printf("Queue is empty.\n");
+        return;
+    }
+    for (int i = q.front; i != (q.rear + 1) % q.max; i = (i + 1) % q.max) {
         displayStudent(q.studList[i]);
     }
 }
