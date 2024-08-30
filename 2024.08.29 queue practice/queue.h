@@ -72,10 +72,9 @@ bool dequeue(QueueADT *q) {
 }
 
 Student front(QueueADT *q) {
-    
+    return q.studList[q.front];
 }
 
-// Display all elements in the array based on the index, value, and indicator. Do not display an index's value if it is not part of the queue
 void visualise(QueueADT q) {
     String studID;
     printf("-%13s%-13s%Indicator\n", "Index", "Student ID");
@@ -89,7 +88,6 @@ void visualise(QueueADT q) {
     }
 }
 
-// Display all elements in the queue in order of front to rear
 void display(QueueADT q) {
     if (isEmpty(q)) {
         printf("Queue is empty.\n");
@@ -98,23 +96,6 @@ void display(QueueADT q) {
     for (int i = q.front; i != (q.rear + 1) % q.max; i = (i + 1) % q.max) {
         displayStudent(q.studList[i]);
     }
-}
-
-Name createName(String fname, String lname) {
-    Name n;
-    strcpy(n.fname, fname);
-    strcpy(n.lname, lname);
-    return n;
-}
-
-Student createStudent(int studID, Name studName, bool sex, String program, int year) {
-    Student s;
-    s.studID = studID;
-    s.studName = studName;
-    s.sex = sex;
-    strcpy(s.program, program);
-    s.year = year;
-    return s;
 }
 
 #endif
