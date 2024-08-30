@@ -37,7 +37,7 @@ Student createStudent(int studID, Name studName, bool sex, String program, int y
 }
 
 void displayStudent(Student s) {
-    printf("%d | %s, %s | %c | %s | %d\n", s.studID, s.lname, s.fname, (s.sex) ? 'M' : 'F', s.program, s.year);
+    printf("%d | %s, %s | %c | %s | %d\n", s.studID, s.studName.lname, s.studName.fname, (s.sex) ? 'M' : 'F', s.program, s.year);
 }
 
 #endif
