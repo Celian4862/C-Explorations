@@ -1,3 +1,6 @@
+#ifndef STUDENT_H
+#define STUDENT_H
+
 typedef char String[20];
 
 typedef struct {
@@ -9,3 +12,5 @@ typedef struct {
 
 Student createStudent(int, String, String, int);
 void displayStudent(Student);
+
+#endif
