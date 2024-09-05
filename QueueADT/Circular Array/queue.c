@@ -1,30 +1,7 @@
-#ifndef QUEUE_H
-#define QUEUE_H
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#include <stdbool.h>
-#include "student.h"
-
-typedef struct {
-    Student *studList;
-    int max;
-    int rear;
-    int front;
-} QueueADT;
-
-void initQueue(QueueADT*, int);
-QueueADT createQueue(int);
-bool isEmpty(QueueADT);
-bool isFull(QueueADT);
-void makeEmpty(QueueADT*);
-bool enqueue(QueueADT*, Student);
-bool dequeue(QueueADT*);
-Student front(QueueADT*);
-void visualise(QueueADT);
-void display(QueueADT);
+#include "queue.h"
 
 void initQueue(QueueADT *q, int max) {
     q->max = max;
@@ -72,7 +49,13 @@ bool dequeue(QueueADT *q) {
 }
 
 Student front(QueueADT *q) {
-    
+    Student s;
+    if (isEmpty(*q)) {
+        s.studID = -1;
+    } else {
+        s = q->studList[q->front];
+    }
+    return s;
 }
 
 // Display all elements in the array based on the index, value, and indicator. Do not display an index's value if it is not part of the queue
@@ -108,4 +91,10 @@ Student createStudent(int studID, Name studName, bool sex, String program, int y
     return s;
 }
 
-#endif
+void displayStudent(Student s) {
+    printf("Student ID: %d\n", s.studID);
+    printf("Student Name: %s %s\n", s.studName.fname, s.studName.lname);
+    printf("Sex: %c\n", s.sex);
+    printf("Program: %s\n", s.program);
+    printf("Year: %d\n", s.year);
+}

@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <ctype.h>
 #include "queue.h"
 
@@ -10,7 +12,9 @@ int main() {
     printf("How many students do you have in total? ");
     do {
         scanf("%19s", buffer);
-        for (int i = 0; i < 19; i++) {
+        // The line below is for testing purposes only.
+        unsigned int buffer_length = strlen(buffer);
+        for (int i = 0; i < strlen(buffer); i++) {
             if (!isdigit(buffer[i])) {
                 invalid_input = true;
                 printf("Please input only numbers.\n");

@@ -17,5 +17,6 @@ typedef struct {
 
 Name createName(String, String);
 Student createStudent(int, Name, bool, String, int);
+void displayStudent(Student);
 
 #endif
