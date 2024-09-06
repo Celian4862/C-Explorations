@@ -25,6 +25,8 @@ int main() {
     }
     max = atoi(buffer);
     q = createQueue(max);
+    long int stud_size = sizeof(Student);
+    long int size = sizeof(Student) * (max + 1);
     printf("\n");
     do {
         cancel_input = false;
@@ -46,7 +48,6 @@ int main() {
         switch (atoi(&choice)) {
             case 1:
                 if (isFull(q)) {
-                    printf("The queue is full.\n");
                     break;
                 }
                 printf("Enter N or n as the first character in your input to cancel enqueueing at any point.\nEnter student details. ");
@@ -196,6 +197,12 @@ int main() {
                 break;
             case 6:
                 display(q);
+                break;
+            case 7:
+                printf("Thank you for using the program.\n");
+                break;
+            default:
+                printf("Invalid choice. Please try again.\n");
                 break;
         }
         printf("\n");

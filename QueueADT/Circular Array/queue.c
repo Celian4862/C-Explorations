@@ -4,16 +4,24 @@
 #include "queue.h"
 
 void initQueue(QueueADT *q, int max) {
-    q->max = max;
-    q->studList = (Student*) malloc (sizeof(Student) * max);
+    q->max = max + 1;
+    q->studList = (Student*) malloc (sizeof(Student) * (max));
+    if (q->studList == NULL) {
+        printf("Memory allocation failed.\n");
+        exit(1);
+    }
     q->rear = 0;
     q->front = 1;
 }
 
 QueueADT createQueue(int max) {
     QueueADT q;
-    q.max = max;
-    q.studList = (Student*) malloc (sizeof(Student) * max);
+    q.max = max + 1;
+    q.studList = (Student*) malloc (sizeof(Student) * (max));
+    if (q.studList == NULL) {
+        printf("Memory allocation failed.\n");
+        exit(1);
+    }
     q.rear = 0;
     q.front = 1;
     return q;
@@ -70,9 +78,6 @@ Student front(QueueADT *q) {
 }
 
 void visualise(QueueADT q) {
-    if (isEmpty(q)) {
-        return;
-    }
     String studID;
     printf("%-13s%-13sIndicator\n", "Index", "Student ID");
     for (int i = 0; i < q.max; i++) {

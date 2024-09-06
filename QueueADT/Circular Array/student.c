@@ -26,4 +26,5 @@ void displayStudent(Student s) {
     printf("Sex: %c\n", (s.sex) ? 'm' : 'f');
     printf("Program: %s\n", s.program);
     printf("Year: %d\n", s.year);
+    printf("\n");
 }
