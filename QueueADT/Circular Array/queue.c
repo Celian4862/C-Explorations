@@ -1,11 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#ifdef _WIN32
-#include <windows.h>
-#else
-#include <unistd.h>
-#endif
 #include "queue.h"
 
 void initQueue(QueueADT *q, int max) {
@@ -27,11 +22,6 @@ QueueADT createQueue(int max) {
 bool isEmpty(QueueADT q) {
     if ((q.rear + 1) % q.max == q.front) {
         printf("The queue is empty.\n");
-        #ifdef _WIN32
-            Sleep(2000);
-        #else
-            sleep(2);
-        #endif
         return true;
     }
     return false;
@@ -40,11 +30,6 @@ bool isEmpty(QueueADT q) {
 bool isFull(QueueADT q) {
     if ((q.rear + 2) % q.max == q.front) {
         printf("The queue is full.\n");
-        #ifdef _WIN32
-            Sleep(2000);
-        #else
-            sleep(2);
-        #endif
         return true;
     }
     return false;
@@ -53,11 +38,6 @@ bool isFull(QueueADT q) {
 void makeEmpty(QueueADT *q) {
     q->rear = (q->front + (q->max - 1)) % q->max;
     printf("Queue emptied.\n");
-    #ifdef _WIN32
-        Sleep(2000);
-    #else
-        sleep(2);
-    #endif
 }
 
 bool enqueue(QueueADT *q, Student s) {
@@ -67,11 +47,6 @@ bool enqueue(QueueADT *q, Student s) {
     q->rear = (q->rear + 1) % q->max;
     q->studList[q->rear] = s;
     printf("Enqueue successful.\n");
-    #ifdef _WIN32
-        Sleep(2000);
-    #else
-        sleep(2);
-    #endif
     return true;
 }
 
@@ -81,11 +56,6 @@ bool dequeue(QueueADT *q) {
     }
     q->front = (q->front + 1) % q->max;
     printf("Dequeue successful.\n");
-    #ifdef _WIN32
-        Sleep(2000);
-    #else
-        sleep(2);
-    #endif
     return true;
 }
 
@@ -123,30 +93,3 @@ void display(QueueADT q) {
         displayStudent(q.studList[i]);
     }
 }
-
-Name createName(String fname, String lname) {
-    Name n;
-    strcpy(n.fname, fname);
-    strcpy(n.lname, lname);
-    return n;
-}
-
-Student createStudent(int studID, Name studName, bool sex, String program, int year) {
-    Student s;
-    s.studID = studID;
-    s.studName = studName;
-    s.sex = sex;
-    strcpy(s.program, program);
-    s.year = year;
-    return s;
-}
-
-void displayStudent(Student s) {
-    printf("Student ID: %d\n", s.studID);
-    printf("Student Name: %s %s\n", s.studName.fname, s.studName.lname);
-    printf("Sex: %c\n", s.sex);
-    printf("Program: %s\n", s.program);
-    printf("Year: %d\n", s.year);
-}
-
-#endif
