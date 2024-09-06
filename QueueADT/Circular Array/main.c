@@ -4,51 +4,233 @@
 #include <ctype.h>
 #include "queue.h"
 
+void clear_input_stream();
+_Bool check_cancel_input(const char*);
+_Bool is_all_digits(const char*);
+
 int main() {
     QueueADT q;
-    int max, choice;
+    Student s;
+    int max;
+    char choice;
     String buffer;
-    _Bool invalid_input = false;
+    _Bool invalid_input, cancel_input;
     printf("How many students do you have in total? ");
-    do {
-        scanf("%19s", buffer);
-        // The line below is for testing purposes only.
-        unsigned int buffer_length = strlen(buffer);
-        for (int i = 0; i < strlen(buffer); i++) {
-            if (!isdigit(buffer[i])) {
-                invalid_input = true;
-                printf("Please input only numbers.\n");
-                break;
-            }
+    while (true) {
+        scanf("%10s", buffer);
+        clear_input_stream();
+        if (!is_all_digits(buffer)) {
+            printf("Invalid input. Please try again.\n");
+            continue;
         }
-    } while (invalid_input);
+        break;
+    }
     max = atoi(buffer);
     q = createQueue(max);
-    printf("What would you like to do with the queue?\n");
-    printf("1. Enqueue\n");
-    printf("2. Dequeue\n");
-    printf("3. Display\n");
-    printf("4. Visualise\n");
-    printf("5. Exit\n");
+    printf("\n");
     do {
+        cancel_input = false;
+        printf("What would you like to do with the queue?\n");
+        printf("1. Enqueue\n");
+        printf("2. Dequeue\n");
+        printf("3. Empty the queue\n");
+        printf("4. See front\n");
+        printf("5. Visualise\n");
+        printf("6. Display\n");
+        printf("7. Exit\n");
         printf("Enter your choice: ");
-        scanf("%d", &choice);
-        switch (choice) {
+        scanf("%c", &choice);
+        clear_input_stream();
+        printf("\n");
+        if (!isdigit(choice)) {
+            printf("Invalid choice. Please try again.\n\n");
+            continue;
+        }
+        switch (atoi(&choice)) {
             case 1:
+                if (isFull(q)) {
+                    printf("The queue is full.\n");
+                    break;
+                }
+                printf("Enter N or n as the first character in your input to cancel enqueueing at any point.\nEnter student details. ");
+                // Entering student ID
+                while (true) {
+                    printf("Enter student ID: ");
+                    scanf("%10s", buffer);
+                    clear_input_stream();
+                    cancel_input = check_cancel_input(buffer);
+                    if (cancel_input) {
+                        break;
+                    }
+                    if (!is_all_digits(buffer)) {
+                        clear_input_stream();
+                        printf("Invalid student ID. Please try again.\n");
+                        continue;
+                    }
+                    break;
+                }
+                if (cancel_input) {
+                    break;
+                }
+                s.studID = atoi(buffer);
+
+                // Entering student last name
+                while (true) {
+                    printf("Enter student's last name: ");
+                    scanf("%19s", buffer);
+                    clear_input_stream();
+                    cancel_input = check_cancel_input(buffer);
+                    if (cancel_input) {
+                        break;
+                    }
+                    printf("Is this the student's last name? (%s) (Y/N) ", buffer);
+                    scanf("%c", &choice);
+                    clear_input_stream();
+                    if (choice == 'Y' || choice == 'y') {
+                        break;
+                    }
+                }
+                if (cancel_input) {
+                    break;
+                }
+                strcpy(s.studName.lname, buffer);
+
+                // Entering student's first name
+                while (true) {
+                    printf("Enter student's first name: ");
+                    scanf("%19s", buffer);
+                    clear_input_stream();
+                    cancel_input = check_cancel_input(buffer);
+                    if (cancel_input) {
+                        break;
+                    }
+                    printf("Is this the student's first name? (%s) (Y/N) ", buffer);
+                    scanf("%c", &choice);
+                    clear_input_stream();
+                    if (choice == 'Y' || choice == 'y') {
+                        break;
+                    }
+                }
+                if (cancel_input) {
+                    break;
+                }
+                strcpy(s.studName.fname, buffer);
+
+                // Enter student's sex
+                while (true) {
+                    printf("What is the sex of the student? (M/F) ");
+                    scanf("%c", &choice);
+                    clear_input_stream();
+                    cancel_input = check_cancel_input(&choice);
+                    if (cancel_input) {
+                        break;
+                    }
+                    if (choice == 'M' || choice == 'm') {
+                        s.sex = true;
+                    } else if (choice == 'F' || choice == 'f') {
+                        s.sex = false;
+                    } else {
+                        printf("Invalid choice. Please try again.\n");
+                        continue;
+                    }
+                    break;
+                }
+
+                // Enter student's programme
+                while (true) {
+                    printf("What is the programme of the student? ");
+                    scanf("%19s", buffer);
+                    clear_input_stream();
+                    cancel_input = check_cancel_input(buffer);
+                    if (cancel_input) {
+                        break;
+                    }
+                    printf("Is this the student's programme? (%s) (Y/N) ", buffer);
+                    scanf("%c", &choice);
+                    clear_input_stream();
+                    if (choice == 'Y' || choice == 'y') {
+                        break;
+                    }
+                }
+                if (cancel_input) {
+                    break;
+                }
+                strcpy(s.program, buffer);
+
+                // Enter student's year
+                while (true) {
+                    printf("What year is the student in? ");
+                    scanf("%10s", buffer);
+                    clear_input_stream();
+                    cancel_input = check_cancel_input(buffer);
+                    if (cancel_input) {
+                        break;
+                    }
+                    if (!is_all_digits(buffer)) {
+                        printf("Invalid input. Please try again.\n");
+                        continue;
+                    }
+                    s.year = atoi(buffer);
+                    break;
+                }
+                if (cancel_input) {
+                    break;
+                }
+
+                enqueue(&q, s);
                 break;
             case 2:
+                dequeue(&q);
                 break;
             case 3:
+                printf("Are you sure you want to empty the queue? (Y/N) ");
+                scanf("%c", &choice);
+                clear_input_stream();
+                if (choice == 'Y' || choice == 'y') {
+                    makeEmpty(&q);
+                }
                 break;
             case 4:
+                if (isEmpty(q)) {
+                    break;
+                }
+                displayStudent(front(&q));
                 break;
             case 5:
+                if (isEmpty(q)) {
+                    break;
+                }
+                visualise(q);
                 break;
-            default:
-                printf("Invalid choice. Please try again.\n");
+            case 6:
+                display(q);
                 break;
         }
-    } while (choice != 5);
+        printf("\n");
+    } while (atoi(&choice) != 7);
 
     return 0;
+}
+
+void clear_input_stream() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
+
+_Bool check_cancel_input(const char *str) {
+    if (*str == 'N' || *str == 'n') {
+        printf("Enqueue canceled.\n");
+        return true;
+    }
+    return false;
+}
+
+_Bool is_all_digits(const char *str) {
+    while (*str) {
+        if (!isdigit(*str)) {
+            return false;
+        }
+        str++;
+    }
+    return true;
 }

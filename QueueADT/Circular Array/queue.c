@@ -1,6 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#ifdef _WIN32
+#include <windows.h>
+#else
+#include <unistd.h>
+#endif
 #include "queue.h"
 
 void initQueue(QueueADT *q, int max) {
@@ -20,15 +25,39 @@ QueueADT createQueue(int max) {
 }
 
 bool isEmpty(QueueADT q) {
-    return (q.rear + 1) % q.max == q.front;
+    if ((q.rear + 1) % q.max == q.front) {
+        printf("The queue is empty.\n");
+        #ifdef _WIN32
+            Sleep(2000);
+        #else
+            sleep(2);
+        #endif
+        return true;
+    }
+    return false;
 }
 
 bool isFull(QueueADT q) {
-    return (q.rear + 2) % q.max == q.front;
+    if ((q.rear + 2) % q.max == q.front) {
+        printf("The queue is full.\n");
+        #ifdef _WIN32
+            Sleep(2000);
+        #else
+            sleep(2);
+        #endif
+        return true;
+    }
+    return false;
 }
 
 void makeEmpty(QueueADT *q) {
     q->rear = (q->front + (q->max - 1)) % q->max;
+    printf("Queue emptied.\n");
+    #ifdef _WIN32
+        Sleep(2000);
+    #else
+        sleep(2);
+    #endif
 }
 
 bool enqueue(QueueADT *q, Student s) {
@@ -37,6 +66,12 @@ bool enqueue(QueueADT *q, Student s) {
     }
     q->rear = (q->rear + 1) % q->max;
     q->studList[q->rear] = s;
+    printf("Enqueue successful.\n");
+    #ifdef _WIN32
+        Sleep(2000);
+    #else
+        sleep(2);
+    #endif
     return true;
 }
 
@@ -45,6 +80,12 @@ bool dequeue(QueueADT *q) {
         return false;
     }
     q->front = (q->front + 1) % q->max;
+    printf("Dequeue successful.\n");
+    #ifdef _WIN32
+        Sleep(2000);
+    #else
+        sleep(2);
+    #endif
     return true;
 }
 
@@ -58,18 +99,27 @@ Student front(QueueADT *q) {
     return s;
 }
 
-// Display all elements in the array based on the index, value, and indicator. Do not display an index's value if it is not part of the queue
 void visualise(QueueADT q) {
-    // Index, value, indicator
+    if (isEmpty(q)) {
+        return;
+    }
+    String studID;
+    printf("%-13s%-13sIndicator\n", "Index", "Student ID");
     for (int i = 0; i < q.max; i++) {
-        printf("Index\t\tValue\t\tIndicator\n");
-        printf("%d\t\tStud%d\t\t%c\n", i, q.studList[i].studID, (i == q.front) ? 'F' : (i == q.rear) ? 'R' : ' ');
+        if (i >= q.front && i <= q.rear) {
+            sprintf(studID, "%d", q.studList[i].studID);
+        } else {
+            strcpy(studID, "");
+        }
+        printf("%-13d%-13s%s\n", i, studID, (i == q.front && i == q.rear) ? "F/R" : (i == q.front) ? "F" : (i == q.rear) ? "R" : " ");
     }
 }
 
-// Display all elements in the queue in order of front to rear
 void display(QueueADT q) {
-    for (int i = (q.front + 1) % q.max; i != (q.rear + 1) % q.max; i = (i + 1) % q.max) {
+    if (isEmpty(q)) {
+        return;
+    }
+    for (int i = q.front; i != (q.rear + 1) % q.max; i = (i + 1) % q.max) {
         displayStudent(q.studList[i]);
     }
 }
@@ -98,3 +148,5 @@ void displayStudent(Student s) {
     printf("Program: %s\n", s.program);
     printf("Year: %d\n", s.year);
 }
+
+#endif
