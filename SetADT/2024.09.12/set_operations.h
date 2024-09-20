@@ -16,7 +16,6 @@ void initSet(Set *s, int max);
 
 bool addElement(Set *s, int item);
 bool removeElement(Set *s, int item);
-void freeSet(Set *s);
 void displaySet(Set s);
 bool isElement(Set s, int item);
 bool isSubset(Set a, Set b);
@@ -25,5 +24,6 @@ Set unionSet(Set a, Set b);
 Set intersectionSet(Set a, Set b);
 Set differenceSet(Set a, Set b);
 Set symmetricDifferenceSet(Set a, Set b);
+void freeSet(Set *s);
 
 #endif

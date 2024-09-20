@@ -35,12 +35,6 @@ bool removeElement(Set *s, int item) {
     return false;
 }
 
-void freeSet(Set *s) {
-    free(s->elems);
-    s->count = 0;
-    s->max = 0;
-}
-
 void displaySet(Set s) {
     int i;
     printf("{ ");
@@ -90,4 +84,32 @@ Set intersectionSet (Set a, Set b) {
         new_set.elems[i] = a.elems[i] && b.elems[i];
     }
     return new_set;
+}
+
+Set differenceSet(Set a, Set b) {
+    Set new_set = createSet((a.max > b.max) ? a.max : b.max);
+    int i, max = (a.max < b.max) ? a.max : b.max;
+    for (i = 0; i < max; i++) {
+        new_set.elems[i] = a.elems[i] && !b.elems[i];
+    }
+    return new_set;
+}
+
+Set symmetricDifferenceSet(Set a, Set b) {
+    Set bigger_set = (a.max > b.max) ? a : b;
+    Set new_set = createSet(bigger_set.max);
+    int i, max = (a.max < b.max) ? a.max : b.max;
+    for (i = 0; i < max; i++) {
+        new_set.elems[i] = a.elems[i] != b.elems[i];
+    }
+    for (; i < bigger_set.max; i++) {
+        new_set.elems[i] = bigger_set.elems[i];
+    }
+    return new_set;
+}
+
+void freeSet(Set *s) {
+    free(s->elems);
+    s->count = 0;
+    s->max = 0;
 }
