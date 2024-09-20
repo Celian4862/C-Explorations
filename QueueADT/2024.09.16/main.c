@@ -5,8 +5,7 @@
 
 int main(int argc, char **argv) {
     NQueue nq;
-    Name name_input;
-    char choice = '0', lname[30]; // First usage of lname in line 82
+    char choice = '0';
     initNQueue(&nq);
     
     while (choice != 7) {
@@ -27,8 +26,9 @@ int main(int argc, char **argv) {
 
         switch (choice) {
             case 1:
-            case 6:
+            case 6: {
                 printf("Enter first name: ");
+                Name name_input;
                 scanf(" %29s", name_input.fname);
                 printf("Enter last name: ");
                 scanf(" %29s", name_input.lname);
@@ -50,6 +50,7 @@ int main(int argc, char **argv) {
                         break;
                 }
                 break;
+            }
             case 2:
                 printf("Are you sure you want to dequeue? (Y/N) ");
                 scanf(" %c", &choice);
@@ -72,7 +73,7 @@ int main(int argc, char **argv) {
                     displayQueue(nq);
                 }
                 break;
-            case 4:
+            case 4: {
                 if (isEmpty(nq)) {
                     printf("The queue is empty.\n\n");
                 } else {
@@ -80,8 +81,10 @@ int main(int argc, char **argv) {
                     printf("%s %s\n", temp.fname, temp.lname);
                 }
                 break;
-            case 5:
+            }
+            case 5: {
                 printf("Enter the last name by which you would like to filter the queue: ");
+                char lname[30];
                 scanf(" %29s", lname);
                 printf("\n");
                 Name *filtered_names;
@@ -93,6 +96,7 @@ int main(int argc, char **argv) {
                 }
                 free(filtered_names);
                 break;
+            }
             case 7:
                 printf("Goodbye!\n");
                 break;
