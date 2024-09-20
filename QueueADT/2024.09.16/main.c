@@ -8,20 +8,6 @@ int main(int argc, char **argv) {
     Name name_input;
     char choice = '0', lname[30]; // First usage of lname in line 82
     initNQueue(&nq);
-    // To save during testing
-    strcpy(nq.elems[1].fname, "Kurt");
-    strcpy(nq.elems[1].lname, "Kaw");
-
-    strcpy(nq.elems[2].fname, "Yvonne");
-    strcpy(nq.elems[2].lname, "Black");
-
-    strcpy(nq.elems[3].fname, "Helena");
-    strcpy(nq.elems[3].lname, "Porten");
-
-    strcpy(nq.elems[4].fname, "Naomi");
-    strcpy(nq.elems[4].lname, "Trent");
-
-    nq.rear = 4;
     
     while (choice != 7) {
         printf("\n");
