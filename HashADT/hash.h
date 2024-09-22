@@ -20,7 +20,9 @@ typedef struct {
     int count;
 } HashTable;
 
-// Get the hash based on the summation of the first 3 letters of the name plus the letters in the program. The function must be able to return a value from 0 - 19.
+/*  Get the hash based on the summation of the first 3 letters of the name and the letters in the program.
+    Assume that the name is always at least 3 letters long.
+    The function must be able to return a value from 0 - 19. */
 int getHash(Student s);
 
 void initDictionary(HashTable *ht);
