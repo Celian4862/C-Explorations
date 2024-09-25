@@ -32,4 +32,6 @@ bool deleteItem(HashTable *ht, Student s);
 
 void visualiseTable(HashTable ht);
 
+void freeHash(HashTable *ht);
+
 #endif
