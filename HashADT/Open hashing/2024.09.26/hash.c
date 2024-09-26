@@ -50,8 +50,12 @@ void visualiseStack(Stack s) {
 
 void initDict(ProdDict *pd, int max) {
     pd->data = (NodePtr*) malloc (sizeof(NodePtr) * max);
+    int i;
     pd->count = 0;
     pd->max = max;
+    for (i = 0; i < pd->max; i++) {
+        pd->data[i] = NULL;
+    }
 }
 
 int getHash(int prodID, char *prodName, int max) {
@@ -75,8 +79,36 @@ Product getDict(ProdDict pd, int prodID, char *prodName) {
 }
 
 bool addDict(ProdDict *pd, Product p) {
+    // Check amount of non-null values in array of linked lists
     if ((int) (pd->max * 0.7) == pd->count) {
         return false;
+    }
+
+    NodePtr *trav, temp;
+    bool flag = false; // True if hash index is null
+    int hash = getHash(p.prodID, p.prodName, pd->max);
+    if (!pd->data[hash]) {
+        flag = true; // When hash index is null
+    }
+
+    for (trav = pd->data + hash; *trav; trav = &(*trav)->link) {
+        if ((*trav)->prod.prodID == p.prodID && !strcmp((*trav)->prod.prodName, p.prodName)) {
+            (*trav)->prod.prodQty += p.prodQty;
+            return true;
+        } else if ((*trav)->prod.prodID > p.prodID || (*trav)->prod.prodID == p.prodID && strcmp((*trav)->prod.prodName, p.prodName) > 0) {
+            break;
+        }
+    }
+    temp = (NodePtr) malloc (sizeof(NodeType));
+    if (!temp) {
+        return false;
+    }
+    temp->prod = p;
+    temp->link = *trav;
+    *trav = temp;
+
+    if (flag) {
+        pd->count++;
     }
 
     return true;
@@ -97,14 +129,14 @@ void visualiseDict(ProdDict pd) {
     printf("%-8s %-14s %-17s %-20s %-13s\n", "Hash", "Product ID", "Product Name", "Product Quantity", "Product Price");
     for (i = 0; i < pd.max; i++) {
         printf("%-8d", i);
-        // Special case for first item, if it exists
         if (pd.data[i]) {
-            printf(" %-14d %-17s %-20d %-13.2f\n", pd.data[i]->prod.prodID, pd.data[i]->prod.prodName, pd.data[i]->prod.prodQty, pd.data[i]->prod.prodPrice);
+            printf(" %-14d %-17s %-20d %-13.2f", pd.data[i]->prod.prodID, pd.data[i]->prod.prodName, pd.data[i]->prod.prodQty, pd.data[i]->prod.prodPrice);
+            // Subsequent items in the hash
+            for (trav = pd.data[i]->link; trav; trav = trav->link) {
+                printf("\n%-8s %-14d %-17s %-20d %-13.2f", "", trav->prod.prodID, trav->prod.prodName, trav->prod.prodQty, trav->prod.prodPrice);
+            }
         }
-        // Subsequent items in the hash
-        for (trav = pd.data[i]->link; trav; trav = trav->link) {
-            printf("%-8s %-14d %-17s %-20d %-13.2f\n", "", trav->prod.prodID, trav->prod.prodName, trav->prod.prodQty, trav->prod.prodPrice);
-        }
+        printf("\n");
     }
 }
 
