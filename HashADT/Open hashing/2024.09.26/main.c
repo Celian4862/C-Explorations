@@ -1,10 +1,10 @@
 #include "hash.h"
 
-// LACKING TEST FOR visualiseDict
-
 int main() {
     Stack s;
     initStack(&s);
+    ProdDict pd;
+    initDict(&pd, 10);
     Product products[10] = {
         {1, "Product 1", 10, 9.99},
         {2, "Product 2", 5, 19.99},
@@ -23,6 +23,15 @@ int main() {
         push(&s, products[i]);
     }
     visualiseStack(s);
+    if (addDict(&pd, products[0])) {
+        visualiseDict(pd);
+    }
+
+    Product test_prod = {1, "Product 2", 10, 9.99};
+
+    if (addDict(&pd, test_prod)) {
+        visualiseDict(pd);
+    }
 
     return 0;
 }
