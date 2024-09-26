@@ -36,6 +36,6 @@ Product getDict(ProdDict, int, char*); // Check if prodID of returned value is -
 bool addDict(ProdDict*, Product);
 bool removeDict(ProdDict*, int, char*);
 void visualiseDict(ProdDict);
-void stackToDict(ProdDict*, Stack);
+void stackToDict(ProdDict*, Stack*);
 
 #endif
