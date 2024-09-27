@@ -22,14 +22,20 @@ int main() {
     for (i = 0; i < 10; i++) {
         push(&s, products[i]);
     }
-    visualiseStack(s);
-    if (addDict(&pd, products[0])) {
-        visualiseDict(pd);
-    }
+    // visualiseStack(s);
+    // if (addDict(&pd, products[0])) {
+    //     visualiseDict(pd);
+    // }
 
-    Product test_prod = {1, "Product 2", 10, 9.99};
+    // Product test_prod = {1, "Product 2", 10, 9.99};
 
-    if (addDict(&pd, test_prod)) {
+    // if (addDict(&pd, test_prod)) {
+    //     visualiseDict(pd);
+    // }
+
+    stackToDict(&pd, &s);
+    visualiseDict(pd);
+    if (addDict(&pd, products[9])) {
         visualiseDict(pd);
     }
 
