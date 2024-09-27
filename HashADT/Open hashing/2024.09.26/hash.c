@@ -79,14 +79,14 @@ Product getDict(ProdDict pd, int prodID, char *prodName) {
 }
 
 bool addDict(ProdDict *pd, Product p) {
+    int hash = getHash(p.prodID, p.prodName, pd->max);
     // Check amount of non-null values in array of linked lists
-    if ((int) (pd->max * 0.7) == pd->count) {
+    if ((int) (pd->max * 0.7) == pd->count && !pd->data[hash]) {
         return false;
     }
 
     NodePtr *trav, temp;
     bool flag = false; // True if hash index is null
-    int hash = getHash(p.prodID, p.prodName, pd->max);
     if (!pd->data[hash]) {
         flag = true; // When hash index is null
     }
@@ -118,6 +118,16 @@ bool removeDict(ProdDict *pd, int prodID, char *prodName) {
     int hash = getHash(prodID, prodName, pd->max);
 
     if (!pd->data[hash]) {
+        return false;
+    }
+
+    NodePtr *trav, temp;
+
+    for (trav = pd->data + hash; *trav && (prodID == (*trav)->prod.prodID && !strcmp(prodName, (*trav)->prod.prodName)); trav = &(*trav)->link) {}
+    temp = *trav;
+    *trav = (*trav)->link;
+    free(temp);
+    if (!pd->data[hash]) {
         pd->count--;
     }
     return true;
@@ -141,5 +151,11 @@ void visualiseDict(ProdDict pd) {
 }
 
 void stackToDict(ProdDict *pd, Stack *s) {
-
+    NodePtr temp;
+    while (*s) {
+        addDict(pd, (*s)->prod);
+        temp = *s;
+        *s = (*s)->link;
+        free(temp);
+    }
 }
