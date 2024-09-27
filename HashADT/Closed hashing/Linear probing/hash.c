@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include "hash.h"
 
-int getHash(const char *studName, const char *program) {
+int getHash(const char *studName, const char *program, int max) {
     int hash = 0;
     for (int i = 0; i < 3; i++) {
         hash += (int) studName[i];
@@ -12,7 +12,7 @@ int getHash(const char *studName, const char *program) {
     for (int i = 0; i < strlen(program); i++) {
         hash += (int) program[i];
     }
-    return hash % 20;
+    return hash % max;
     // 0 <= remainder < divisor
 }
 
@@ -28,7 +28,7 @@ void initDictionary(HashTable *ht, int max) {
 }
 
 bool insert(HashTable *ht, Student s) {
-    int hash = getHash(s.studName, s.program), double_max = ht->max * 2, i, j;
+    int hash = getHash(s.studName, s.program, ht->max), double_max = ht->max * 2, i, j;
     Hash_idx *new_elem_array;
     Student *new_stud_list;
 
@@ -63,7 +63,7 @@ bool insert(HashTable *ht, Student s) {
         }
 
         for (i = 0; i < ht->count; i++) {
-            for (j = getHash(ht->stud_list[i].studName, ht->stud_list[i].program); ht->elem[j].status != EMPTY; j = (j + 1) % ht->max) {}
+            for (j = getHash(ht->stud_list[i].studName, ht->stud_list[i].program, ht->max); ht->elem[j].status != EMPTY; j = (j + 1) % ht->max) {}
             ht->elem[j].stud = ht->stud_list[i];
         }
     }
