@@ -66,8 +66,9 @@ bool insert(HashTable *ht, Student s) {
             for (j = getHash(ht->stud_list[i].studName, ht->stud_list[i].program, ht->max); ht->elem[j].status != EMPTY; j = (j + 1) % ht->max) {}
             ht->elem[j].stud = ht->stud_list[i];
         }
+        hash = getHash(s.studName, s.program, ht->max);
     }
-    for (i = 0; ht->elem[i].status != EMPTY; i = (i + 1) % ht->max) {}
+    for (i = hash; ht->elem[i].status != EMPTY; i = (i + 1) % ht->max) {}
     ht->elem[i].stud = s;
     ht->elem[i].status = OCCUPIED;
     ht->stud_list[ht->count++] = s;
