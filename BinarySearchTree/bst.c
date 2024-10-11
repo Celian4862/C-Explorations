@@ -2,24 +2,31 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void (*display[3]) (NodePtr) = {preorder, inorder, postorder};
+void (*display[4]) (BST) = {breadth_first, preorder, inorder, postorder};
 
 void init(BST *tree) {
     *tree = NULL;
 }
 
 bool insert(BST *tree, int data) {
-    NodePtr *trav = tree;
+    BST *trav = tree;
     while (*trav) {
         trav = (data < (*trav)->data) ? &(*trav)->left : &(*trav)->right;
     }
-    NodePtr temp = (NodePtr) calloc (sizeof(NodeType), 1);
+    BST temp = (BST) calloc (sizeof(BST), 1);
     if (!temp) {
         return false;
     }
     temp->data = data;
     *trav = temp;
     return true;
+}
+
+// Incomplete
+void breadth_first(BST node) {
+    QueueADT q = NULL;
+    NodePtr head, tail;
+    
 }
 
 void preorder(BST node) {
@@ -46,7 +53,7 @@ void postorder(BST node) {
     }
 }
 
-void allDisplay(NodePtr tree) {
+void allDisplay(BST tree) {
     for (int i = 0; i < 3; i++) {
         display[i](tree);
         printf("\n");

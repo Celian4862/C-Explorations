@@ -3,19 +3,25 @@
 #include <stdbool.h>
 
 // Hidden variable
-// void (*display[3])(NodePtr) = {preorder, inorder, postorder};
+// void (*display[4])(NodePtr) = {breadth_first, preorder, inorder, postorder};
 
 typedef struct node {
     int data;
     struct node *left;
     struct node *right;
-} NodeType, *NodePtr, *BST;
+} *BST;
 
-void init(NodePtr*);
-bool insert(NodePtr *, int);
-void preorder(NodePtr);
-void inorder(NodePtr);
-void postorder(NodePtr);
-void allDisplay(NodePtr);
+typedef struct node {
+    int data;
+    struct node *link;
+} NodeType, *NodePtr, *QueueADT;
+
+void init(BST*);
+bool insert(BST*, int);
+void breadth_first(BST);
+void preorder(BST);
+void inorder(BST);
+void postorder(BST);
+void allDisplay(BST);
 
 #endif
