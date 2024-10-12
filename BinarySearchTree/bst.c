@@ -13,7 +13,8 @@ bool insert(BST *tree, int data) {
     while (*trav) {
         trav = (data < (*trav)->data) ? &(*trav)->left : &(*trav)->right;
     }
-    BST temp = (BST) calloc (sizeof(BST), 1);
+    BST temp = (BST) malloc (sizeof(BST));
+    temp->left = temp->right = NULL;
     if (!temp) {
         return false;
     }
@@ -22,11 +23,46 @@ bool insert(BST *tree, int data) {
     return true;
 }
 
-// Incomplete
 void breadth_first(BST node) {
-    QueueADT q = NULL;
-    NodePtr head, tail;
-    
+    QueueADT q = (QueueADT) malloc (sizeof(QueueADT));
+    q->head = q->tail = (QueuePtr) malloc (sizeof(QueueNode));
+    if (!q->head) {
+        printf("Memory allocation failed.");
+        return;
+    }
+    q->tail->node = node;
+    q->tail->link = NULL;
+    while (q->head) {
+        printf("%d ", q->head->node->data);
+
+        QueuePtr temp1, temp2;
+
+        if (q->head->node->left && q->head->node->right) {
+            // Create new queue elements for next left child and next right child
+            temp1 = (QueuePtr) malloc (sizeof(QueueNode)), temp2 = (QueuePtr) malloc (sizeof(QueueNode));
+
+            // Let temp1's node point to the next left child
+            temp1->node = q->head->node->left;
+            // Let temp1's link point to temp2 to know the next element in the queue
+            temp1->link = temp2;
+
+            // Let temp2's node point to the next right child
+            temp2->node = q->head->node->right;
+            temp2->link = NULL;
+
+            // Let tail's link point to the next left child
+            q->tail->link = temp1;
+            // Let tail point to the next right child (last element in queue)
+            q->tail = temp2;
+        }
+        // Let temp1 point to head
+        temp1 = q->head;
+        // Let head move to the next element in the queue
+        q->head = q->head->link;
+        // Free the node
+        free(temp1);
+    }
+    free(q);
 }
 
 void preorder(BST node) {
@@ -54,7 +90,7 @@ void postorder(BST node) {
 }
 
 void allDisplay(BST tree) {
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 4; i++) {
         display[i](tree);
         printf("\n");
     }

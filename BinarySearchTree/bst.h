@@ -9,12 +9,16 @@ typedef struct node {
     int data;
     struct node *left;
     struct node *right;
-} *BST;
+} NodeType, *NodePtr, *BST;
 
-typedef struct node {
-    int data;
-    struct node *link;
-} NodeType, *NodePtr, *QueueADT;
+typedef struct queue_node {
+    NodePtr node;
+    struct queue_node *link;
+} QueueNode, *QueuePtr;
+
+typedef struct queue {
+    QueuePtr head, tail;
+} *QueueADT;
 
 void init(BST*);
 bool insert(BST*, int);
