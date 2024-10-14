@@ -35,32 +35,33 @@ void breadth_first(BST node) {
     while (q->head) {
         printf("%d ", q->head->node->data);
 
-        QueuePtr temp1, temp2;
+        QueuePtr temp;
 
-        if (q->head->node->left && q->head->node->right) {
-            // Create new queue elements for next left child and next right child
-            temp1 = (QueuePtr) malloc (sizeof(QueueNode)), temp2 = (QueuePtr) malloc (sizeof(QueueNode));
+        if (q->head->node->left) {
+            // Create new queue elements
+            temp = (QueuePtr) malloc (sizeof(QueueNode));
 
-            // Let temp1's node point to the next left child
-            temp1->node = q->head->node->left;
-            // Let temp1's link point to temp2 to know the next element in the queue
-            temp1->link = temp2;
+            // Let temp's node point to the next child
+            temp->node = q->head->node->left;
+            temp->link = NULL;
 
-            // Let temp2's node point to the next right child
-            temp2->node = q->head->node->right;
-            temp2->link = NULL;
-
-            // Let tail's link point to the next left child
-            q->tail->link = temp1;
-            // Let tail point to the next right child (last element in queue)
-            q->tail = temp2;
+            // Let tail and then its link point to the next element
+            q->tail->link = temp;
+            q->tail = temp;
         }
-        // Let temp1 point to head
-        temp1 = q->head;
+        if (q->head->node->right) {
+           temp = (QueuePtr) malloc (sizeof(QueueNode));
+           temp->node = q->head->node->right;
+           temp->link = NULL;
+           q->tail->link = temp;
+           q->tail = temp;
+        }
+        // Let temp point to head
+        temp = q->head;
         // Let head move to the next element in the queue
         q->head = q->head->link;
         // Free the node
-        free(temp1);
+        free(temp);
     }
     free(q);
 }
