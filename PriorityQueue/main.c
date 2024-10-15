@@ -1,7 +1,5 @@
 #include "pq.h"
-#include <stdio.h>
 
-extern bool (*ops[])(Heap*, int);
 extern void (*display[])(Heap);
 
 int main(int argc, char **argv) {
@@ -21,18 +19,20 @@ int main(int argc, char **argv) {
         printf("What would you like to do?\n1. Insert\n2. Remove\n3. Heapify\n4. Display data\n5. Add another set of data\n6. Exit\nEnter your choice: ");
         scanf("%d", &choice);
         if (choice < 1 || choice > 6) {
-            printf("Invalid choice.\n\n");
+            printf("\nInvalid choice.\n\n");
             continue;
         }
         switch (choice) {
             case 1:
-            case 2:
                 printf("Enter the datum: ");
                 scanf("%d", &data);
-                printf("%s\n", (ops[choice](heap + arr, data)) ? "Operation successful!\n" : "Operation failed.\n");
+                printf("%s\n", (insertHeap(heap + arr, data)) ? "\nInsert successful!\n" : "\nInsert failed.\n");
+                break;
+            case 2:
+                printf("%s\n", (rmHeap(heap + arr)) ? "\nRemove successful!\n" : "\nRemove failed.\n");
                 break;
             case 3:
-                printf("%s\n", (heapify(heap + arr)) ? "Heapify successful!\n" : "Heapify failed.\n");
+                printf("%s\n", (heapify(heap + arr)) ? "\nHeapify successful!\n" : "\nHeapify failed.\n");
                 break;
             case 4:
                 printf("In which manner would you like to display it?\n1. Breadth-first search\n2. Pre-order depth-first search\n3. In-order depth-first search\n4. Post-order depth-first search\nEnter your choice here: ");
@@ -43,6 +43,10 @@ int main(int argc, char **argv) {
                 if (numberOfArrs == maxArrs) {
                     
                 }
+            case 6:
+                break;
+            default:
+                printf("\nInvalid choice.\n\n");
         }
     } while (choice != 6);
     printf("Goodbye!\n");

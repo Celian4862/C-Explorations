@@ -1,7 +1,5 @@
 #include "pq.h"
-#include <stdlib.h>
 
-bool (*ops[])(Heap*, int) = {insert, remove};
 void (*display[])(Heap) = {breadth_first, preorder, inorder, postorder};
 
 void initHeap(Heap *h, int max) {
@@ -16,16 +14,39 @@ void resizeHeap(Heap *h, int max) {
     h->count = 0;
 }
 
-bool insert(Heap *h, int data) {
+bool insertHeap(Heap *h, int data) {
     if (h->count < h->max - 1) {
         int child = ++h->count;
-        while (data < h->arr[(child - 1) / 2]) {
-            
+        while (data < h->arr[(child - 1) / 2] && child != 0) {
+            h->arr[child] = h->arr[(child - 1) / 2];
+            child = (child - 1) / 2;
         }
+        h->arr[child] = data;
+        return true;
     }
     return false;
 }
 
-bool remove(Heap *h, int data) {
+bool rmHeap(Heap *h) {
+    return false;
+}
+
+bool heapify(Heap *h) {
+    return false;
+}
+
+void breadth_first(Heap h) {
+
+}
+
+void preorder(Heap h) {
+
+}
+
+void inorder(Heap h) {
+
+}
+
+void postorder(Heap h) {
 
 }

@@ -1,5 +1,7 @@
 #ifndef PQ_H
 #define PQ_H
+#include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 #define MAX 10
 
@@ -9,8 +11,8 @@ typedef struct {
 
 void initHeap(Heap*, int max);
 void resizeHeap(Heap*, int max);
-bool insert(Heap*, int data);
-bool remove(Heap*, int data);
+bool insertHeap(Heap*, int data);
+bool rmHeap(Heap*);
 bool heapify(Heap*);
 
 void breadth_first(Heap);
