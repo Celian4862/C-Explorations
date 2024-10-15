@@ -2,10 +2,18 @@
 
 extern void (*display[])(Heap);
 
+bool initHeapArray(Heap**, int);
+bool resizeHeapArray(Heap**, int);
+
 int main(int argc, char **argv) {
     int numberOfArrs = 1, maxArrs = 5, arr, choice, data;
-    Heap *heap = (Heap*) malloc (sizeof(Heap) * maxArrs);
-    initHeap(heap, MAX);
+    Heap *heap;
+    if (!initHeapArray(&heap, maxArrs)) {
+        return 1;
+    }
+    if (!initHeap(heap, MAX)) {
+        return 2;
+    }
     do {
         if (numberOfArrs > 1) {
             printf("Which set of data would you like to modify? (1 - %d) ", numberOfArrs);
@@ -41,8 +49,15 @@ int main(int argc, char **argv) {
                 break;
             case 5:
                 if (numberOfArrs == maxArrs) {
-                    
+                    maxArrs += 5;
+                    if (resizeHeapArray(&heap, maxArrs)) {
+                        return 1;
+                    }
                 }
+                if (!initHeap(heap[numberOfArrs].arr, MAX)) {
+                    break;
+                }
+                numberOfArrs++;
             case 6:
                 break;
             default:
@@ -51,4 +66,22 @@ int main(int argc, char **argv) {
     } while (choice != 6);
     printf("Goodbye!\n");
     return 0;
+}
+
+bool initHeapArray(Heap **h, int max) {
+    *h = (Heap*) malloc (sizeof(Heap) * max);
+    if (!(*h)) {
+        printf("Memory allocation failed.\n");
+        return false;
+    }
+    return true;
+}
+
+bool resizeHeapArray(Heap **h, int max) {
+    *h = (Heap*) malloc (h, sizeof(Heap) * max);
+    if (!(*h)) {
+        printf("Memory allocation failed.\n");
+        return false;
+    }
+    return true;
 }

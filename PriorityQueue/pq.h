@@ -9,8 +9,8 @@ typedef struct {
     int *arr, max, count;
 } Heap;
 
-void initHeap(Heap*, int max);
-void resizeHeap(Heap*, int max);
+bool initHeap(Heap*, int max);
+bool resizeHeap(Heap*, int max);
 bool insertHeap(Heap*, int data);
 bool rmHeap(Heap*);
 bool heapify(Heap*);

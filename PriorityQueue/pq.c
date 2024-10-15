@@ -2,20 +2,26 @@
 
 void (*display[])(Heap) = {breadth_first, preorder, inorder, postorder};
 
-void initHeap(Heap *h, int max) {
+bool initHeap(Heap *h, int max) {
     h->arr = (int*) malloc (sizeof(int) * max);
     if (!h->arr) {
         printf("Memory allocation failed.\n");
-        return;
+        return false;
     }
     h->max = max;
     h->count = 0;
+    return true;
 }
 
-void resizeHeap(Heap *h, int max) {
+bool resizeHeap(Heap *h, int max) {
     h->arr = (int*) realloc (h->arr, sizeof(int) * max);
+    if (!h->arr) {
+        printf("Memory allocation failed.\n");
+        return false;
+    }
     h->max = max;
     h->count = 0;
+    return true;
 }
 
 bool insertHeap(Heap *h, int data) {
