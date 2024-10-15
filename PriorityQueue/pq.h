@@ -15,9 +15,9 @@ bool insertHeap(Heap*, int data);
 bool rmHeap(Heap*);
 bool heapify(Heap*);
 
-void breadth_first(Heap);
-void preorder(Heap);
-void inorder(Heap);
-void postorder(Heap);
+void breadth_first(Heap, int);
+void preorder(Heap, int);
+void inorder(Heap, int);
+void postorder(Heap, int);
 
 #endif

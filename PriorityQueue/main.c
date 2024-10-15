@@ -1,12 +1,12 @@
 #include "pq.h"
 
-extern void (*display[])(Heap);
+extern void (*display[])(Heap, int);
 
 bool initHeapArray(Heap**, int);
 bool resizeHeapArray(Heap**, int);
 
 int main(int argc, char **argv) {
-    int numberOfArrs = 1, maxArrs = 5, arr, choice, data;
+    int numberOfArrs = 1, maxArrs = 5, arr = 0, choice, data;
     Heap *heap;
     if (!initHeapArray(&heap, maxArrs)) {
         return 1;
@@ -43,18 +43,27 @@ int main(int argc, char **argv) {
                 printf("%s\n", (heapify(heap + arr)) ? "\nHeapify successful!\n" : "\nHeapify failed.\n");
                 break;
             case 4:
-                printf("In which manner would you like to display it?\n1. Breadth-first search\n2. Pre-order depth-first search\n3. In-order depth-first search\n4. Post-order depth-first search\nEnter your choice here: ");
+                printf("\nIn which manner would you like to display it?\n1. Breadth-first search\n2. Pre-order depth-first search\n3. In-order depth-first search\n4. Post-order depth-first search\nEnter your choice here: ");
                 scanf("%d", &choice);
-                display[choice - 1](heap[arr]);
+                if (choice < 1 || choice > 4) {
+                    printf("Invalid input.\n\n");
+                    break;
+                }
+                display[choice - 1](heap[arr], 0);
+                printf("\n");
+                /*
+                Breadth-first: Prints every datum in the array
+                Depth-first: Passes the array for reference as well as the index of the next datum to print
+                */
                 break;
-            case 5:
+            case 5: // Add another array
                 if (numberOfArrs == maxArrs) {
                     maxArrs += 5;
                     if (resizeHeapArray(&heap, maxArrs)) {
                         return 1;
                     }
                 }
-                if (!initHeap(heap[numberOfArrs].arr, MAX)) {
+                if (!initHeap(heap + numberOfArrs, MAX)) {
                     break;
                 }
                 numberOfArrs++;
@@ -78,7 +87,7 @@ bool initHeapArray(Heap **h, int max) {
 }
 
 bool resizeHeapArray(Heap **h, int max) {
-    *h = (Heap*) malloc (h, sizeof(Heap) * max);
+    *h = (Heap*) realloc (h, sizeof(Heap) * max);
     if (!(*h)) {
         printf("Memory allocation failed.\n");
         return false;
