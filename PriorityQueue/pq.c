@@ -4,6 +4,10 @@ void (*display[])(Heap) = {breadth_first, preorder, inorder, postorder};
 
 void initHeap(Heap *h, int max) {
     h->arr = (int*) malloc (sizeof(int) * max);
+    if (!h->arr) {
+        printf("Memory allocation failed.\n");
+        return;
+    }
     h->max = max;
     h->count = 0;
 }
