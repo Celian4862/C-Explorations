@@ -3,15 +3,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#define MAX 10
+#define MAX 16
 
 typedef struct {
-    int *arr, max, count;
+    int *arr, max, lastIdx;
 } Heap;
 
-bool initHeap(Heap*, int max);
-bool resizeHeap(Heap*, int max);
-bool insertHeap(Heap*, int data);
+bool initHeap(Heap*);
+bool resizeHeap(Heap*);
+bool insertHeap(Heap*, int);
 bool rmHeap(Heap*);
 bool heapify(Heap*);
 
