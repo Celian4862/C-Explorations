@@ -11,7 +11,7 @@ int main(int argc, char **argv) {
     if (!initHeapArray(&heap, maxArrs)) {
         return 1;
     }
-    if (!initHeap(heap, MAX)) {
+    if (!initHeap(heap)) {
         return 2;
     }
     do {
@@ -63,7 +63,7 @@ int main(int argc, char **argv) {
                         return 1;
                     }
                 }
-                if (!initHeap(heap + numberOfArrs, MAX)) {
+                if (!initHeap(heap + numberOfArrs)) {
                     break;
                 }
                 numberOfArrs++;

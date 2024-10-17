@@ -42,19 +42,15 @@ bool rmHeap(Heap *h) {
     h->arr[0] = h->arr[h->lastIdx];
     h->arr[h->lastIdx--] = temp;
     // Sift down
-    // int idx = 0;
-    // bool flag = true;
-    // while (idx <= h->lastIdx && flag) {
-    //     idx = 2 * idx + ((h->arr[idx] > h->arr[2 * idx + 2]) ? 2 : ((h->arr[idx] > h->arr[2 * idx + 1]) ? 1 : 0)
-    //     if (h->arr[idx] > h->arr[2 * idx + 2]) {
-    //         idx = 2 * idx + 2;
-    //     } else if (h->arr[idx] > h->arr[2 * idx + 1]) {
-    //         idx = 2 * idx + 1;
-    //     } else {
-    //         break;
-    //     }
-    //     flag = (h->arr)
-    // }
+    int i = 0, left_child = i * 2 + 1, right_child = i * 2 + 2;
+    while (left_child < h->lastIdx && (h->arr[i] > h->arr[left_child] || h->arr[i] > h->arr[right_child])) {
+        if (h->arr[left_child] > h->arr[right_child]) {
+            h->arr[i] = temp;
+            h->arr[i] = h->arr[right_child];
+            h->arr[right_child] = temp;
+            i = right_child;
+        }
+    }
     return false;
 }
 
