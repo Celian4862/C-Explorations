@@ -3,10 +3,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#define MAX 16
 
 typedef struct {
-    int *arr, max, lastIdx;
+    int *arr, max, lastIdx, depth_breadth;
 } Heap;
 
 bool initHeap(Heap*);
