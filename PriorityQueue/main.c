@@ -49,7 +49,7 @@ int main(int argc, char **argv) {
                     printf("Invalid input.\n\n");
                     break;
                 }
-                display[choice - 1](heap[arr], 0);
+                display[choice - 1](heap[arr], 0); // Only breadth-first display doesn't need new index arguments; the other three are recursive
                 printf("\n");
                 /*
                 Breadth-first: Prints every datum in the array
