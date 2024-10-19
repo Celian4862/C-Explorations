@@ -21,14 +21,12 @@ bool resizeHeap(Heap *h) {
         return false;
     }
     h->depth_breadth *= 2;
-    h->max = h->max + h->depth_breadth;
+    h->max += h->depth_breadth;
     return true;
 }
 
 bool insertHeap(Heap *h, int data) {
-    if (h->lastIdx == h->max - 1 && !resizeHeap(h)) {
-        return false;
-    }
+    if (h->lastIdx == h->max - 1 && !resizeHeap(h)) {return false;}
     int child = ++h->lastIdx;
     while (data < h->arr[(child - 1) / 2] && child != 0) {
         h->arr[child] = h->arr[(child - 1) / 2];
@@ -39,34 +37,28 @@ bool insertHeap(Heap *h, int data) {
 }
 
 bool rmHeap(Heap *h) {
-    // Transfer last data to the root
-    int temp = h->arr[0];
-    h->arr[0] = h->arr[h->lastIdx];
-    h->arr[h->lastIdx--] = temp;
+    if (h->lastIdx == -1) return false;
+    // --(h->lastIdx);
+    // int index = 0, smaller = index, left = 1, temp = h->arr[0];
+    // while (index <= h->lastIdx && left <= h->lastIdx && left + 1 <= h->lastIdx) {
+    //     smaller = (h->arr[left] < h->arr[left + 1]) ? left : left + 1;
+    //     h->arr[index] = h->arr[smaller];
+    //     index = smaller;
+    //     left = index * 2 + 1;
+    // }
+    // h->arr[index] = h->arr[h->lastIdx + 1];
+    // h->arr[h->lastIdx + 1] = temp;
+    // return true;
+
+    int temp = h->arr[h->lastIdx], i = 0, left_child = 1, right_child = 2, child; // Variable initalisations for the whole function
+    h->arr[h->lastIdx--] = h->arr[i]; // Just in case of heap sorting
     // Sift down
-    int i = 0, left_child = 1, right_child = 2;
-    temp = h->arr[0]; // Temp stores the data to sift down
-    while (left_child <= h->lastIdx) { // While left child exists
-        if (right_child <= h->lastIdx) { // If right child exists
-            if (temp > h->arr[left_child] || temp > h->arr[right_child]) { // If temp is greater than either of the children
-                if (h->arr[left_child] >= h->arr[right_child]) {
-                    h->arr[i] = h->arr[right_child];
-                    i = right_child;
-                } else if (h->arr[left_child] < h->arr[right_child]) {
-                    h->arr[i] = h->arr[left_child];
-                    i = left_child;
-                }
-                right_child = i * 2 + 2; // Right child changes to right child of the new node
-            } else {
-                break;
-            }
-        } else if (temp > h->arr[left_child]) {
-            h->arr[i] = h->arr[left_child];
-            i = left_child;
-        } else {
-            break;
-        }
+    while (left_child <= h->lastIdx && (((right_child <= h->lastIdx && (temp > h->arr[left_child] || temp > h->arr[right_child])) || temp > h->arr[left_child]))) {
+        child = (right_child <= h->lastIdx && (temp > h->arr[left_child] || temp > h->arr[right_child]) && h->arr[left_child] < h->arr[right_child] || right_child > h->lastIdx && temp > h->arr[left_child]) ? left_child : right_child;
+        h->arr[i] = h->arr[child];
+        i = child;
         left_child = i * 2 + 1;
+        right_child = left_child + 1;
     }
     h->arr[i] = temp;
     return false;
