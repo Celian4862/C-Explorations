@@ -38,20 +38,27 @@ bool insertHeap(Heap *h, int data) {
 
 bool rmHeap(Heap *h) {
     if (h->lastIdx == -1) return false;
-    int last = h->arr[h->lastIdx];
+
+    int last = h->arr[h->lastIdx],
+    i = 0,
+    left = i * 2 + 1,
+    smaller = (left + 1 <= h->lastIdx && h->arr[left + 1] < h->arr[left]) ? left + 1 : left;
+
     h->arr[h->lastIdx--] = h->arr[0];
-    int index = 0, left = index * 2 + 1, smaller = (left + 1 <= h->lastIdx && h->arr[left + 1] < h->arr[left]) ? left + 1 : left;
+
     while (left <= h->lastIdx && last > h->arr[smaller]) {
-        h->arr[index] = h->arr[smaller];
-        index = smaller;
-        left = index * 2 + 1;
+        h->arr[i] = h->arr[smaller],
+        i = smaller,
+        left = i * 2 + 1,
         smaller = (left + 1 <= h->lastIdx && h->arr[left + 1] < h->arr[left]) ? left + 1 : left;
     }
-    h->arr[index] = last;
+
+    h->arr[i] = last;
     return true;
 }
 
 bool heapify(Heap *h) {
+    
     return false;
 }
 

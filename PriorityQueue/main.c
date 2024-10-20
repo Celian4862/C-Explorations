@@ -30,7 +30,11 @@ int main(int argc, char **argv) {
 // bool resizeHeapArray(Heap**, int);
 
 // int main(int argc, char **argv) {
-//     int numberOfArrs = 1, maxArrs = 5, arr = 0, choice, data;
+//     int numberOfArrs = 1,
+//     maxArrs = 5,
+//     arr = 0,
+//     choice,
+//     data;
 //     Heap *heap;
 //     if (!initHeapArray(&heap, maxArrs)) {
 //         return 1;

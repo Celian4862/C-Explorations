@@ -5,7 +5,10 @@
 #include <stdbool.h>
 
 typedef struct {
-    int *arr, max, lastIdx, depth_breadth;
+    int *arr,
+    max,
+    lastIdx,
+    depth_breadth;
 } Heap;
 
 bool initHeap(Heap*);
