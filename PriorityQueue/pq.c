@@ -38,30 +38,17 @@ bool insertHeap(Heap *h, int data) {
 
 bool rmHeap(Heap *h) {
     if (h->lastIdx == -1) return false;
-    // --(h->lastIdx);
-    // int index = 0, smaller = index, left = 1, temp = h->arr[0];
-    // while (index <= h->lastIdx && left <= h->lastIdx && left + 1 <= h->lastIdx) {
-    //     smaller = (h->arr[left] < h->arr[left + 1]) ? left : left + 1;
-    //     h->arr[index] = h->arr[smaller];
-    //     index = smaller;
-    //     left = index * 2 + 1;
-    // }
-    // h->arr[index] = h->arr[h->lastIdx + 1];
-    // h->arr[h->lastIdx + 1] = temp;
-    // return true;
-
-    int temp = h->arr[h->lastIdx], i = 0, left_child = 1, right_child = 2, child; // Variable initalisations for the whole function
-    h->arr[h->lastIdx--] = h->arr[i]; // Just in case of heap sorting
-    // Sift down
-    while (left_child <= h->lastIdx && (((right_child <= h->lastIdx && (temp > h->arr[left_child] || temp > h->arr[right_child])) || temp > h->arr[left_child]))) {
-        child = (right_child <= h->lastIdx && (temp > h->arr[left_child] || temp > h->arr[right_child]) && h->arr[left_child] < h->arr[right_child] || right_child > h->lastIdx && temp > h->arr[left_child]) ? left_child : right_child;
-        h->arr[i] = h->arr[child];
-        i = child;
-        left_child = i * 2 + 1;
-        right_child = left_child + 1;
+    int last = h->arr[h->lastIdx];
+    h->arr[h->lastIdx--] = h->arr[0];
+    int index = 0, left = index * 2 + 1, smaller = (left + 1 <= h->lastIdx && h->arr[left + 1] < h->arr[left]) ? left + 1 : left;
+    while (left <= h->lastIdx && last > h->arr[smaller]) {
+        h->arr[index] = h->arr[smaller];
+        index = smaller;
+        left = index * 2 + 1;
+        smaller = (left + 1 <= h->lastIdx && h->arr[left + 1] < h->arr[left]) ? left + 1 : left;
     }
-    h->arr[i] = temp;
-    return false;
+    h->arr[index] = last;
+    return true;
 }
 
 bool heapify(Heap *h) {
