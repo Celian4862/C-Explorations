@@ -1,10 +1,9 @@
 #ifndef TP_H
 #define TP_H
-#define MAX 10
 
 typedef struct {
-    int arr[10];
-    int count;
-} Lane;
+    int duration; // active duration of the lane in seconds
+    char lane[5]; // main or alt
+} Traffic;
 
 #endif
