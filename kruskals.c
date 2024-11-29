@@ -100,13 +100,7 @@ void kruskalMST(Flight flights[], int numFlights, int numCities) {
         }
     }
     // TODO: Print the MST and total cost
-    int ownParent = 0;
-    for (int i = 0; i < numCities; i++) {
-        if (subsets[i].parent == i) {
-            ownParent++;
-        }
-    }
-    if (ownParent > 1) {
+    if (mstIndex < numCities - 1) {
         printf("The graph is not fully connected; MST cannot be formed.");
     } else {
         printf("Minimum Spanning Tree:\n");
