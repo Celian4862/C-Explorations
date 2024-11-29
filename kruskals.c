@@ -47,7 +47,7 @@ int main() {
 // Function to compare flights by their cost (used in sorting)
 int compareFlights(const void *a, const void *b) {
     // TODO: Implement comparison logic for sorting flights by cost
-    Flight *flA = (Flight *) a, *flB = (Flight *) b;
+    Flight *flA = (Flight*) a, *flB = (Flight*) b;
     return flA->cost - flB->cost;
 }
 
@@ -87,18 +87,16 @@ void kruskalMST(Flight flights[], int numFlights, int numCities) {
         subsets[i].rank = 0;
     }
     int minCost = 0;
+    int mstIndex = 0;
     Flight MST[numCities - 1];
     // TODO: Iterate through sorted flights and construct the MST
-    for (int i = 0; i < numFlights; i++) {
+    for (int i = 0; i < numFlights && mstIndex < numCities - 1; i++) {
         int v1 = find(subsets, flights[i].source),
-            v2 = find(subsets, flights[i].destination),
-            wt = flights[i].cost;
+            v2 = find(subsets, flights[i].destination);
         if (v1 != v2) {
             unionSets(subsets, v1, v2);
-            minCost += wt;
-            MST[i].source = flights[i].source;
-            MST[i].destination = flights[i].destination;
-            MST[i].cost = wt;
+            minCost += flights[i].cost;
+            MST[mstIndex++] = flights[i];
         }
     }
     // TODO: Print the MST and total cost
