@@ -2,9 +2,8 @@
 #define AVL_H
 
 typedef struct node {
-    int data;
-    struct node *left;
-    struct node *right;
+    int data, left_height, right_height;
+    struct node *left, *right;
 } *AVL;
 
 #endif
