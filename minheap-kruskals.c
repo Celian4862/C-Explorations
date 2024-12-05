@@ -8,9 +8,9 @@ typedef struct {
 } Edge;
 
 typedef struct {
-  Edge edge[MAX - 1];
+  Edge edge[((MAX - 1) * (MAX)) / 2]; // Used arithmetic sum to minimise the amount of storage used
   int lastNdx;
-} EdgeList;
+} EdgeList, HeapEdgeList;
 
 typedef struct {
   EdgeList el;
@@ -19,14 +19,20 @@ typedef struct {
 
 MST Kruskals(LabelAdjMat);
 EdgeList createMinHeap(LabelAdjMat);
-void insertHeap(EdgeList*, int, int, int);
+void insertHeap(HeapEdgeList*, Edge);
+void rmHeap(HeapEdgeList*);
 
 int main(int argc, char **argv) {
+  // Create the matrix
   LabelAdjMat matrix;
-  int x,y,z;
-  printf("Enter 0 to stop giving input.\n");
-  printf("Enter edge: (source, destination, weight): ");
-  scanf("%d %d %d", &x, &y, &z);
+  int weight;
+  for (int i = 0; i < MAX; i++) {
+    for (int j = i + 1; j < MAX; j++) {
+      printf("Enter weight for edge %d to %d (-1 for infinity): ", i, j);
+      scanf("%d", &weight);
+      matrix[i][j] = weight;
+    }
+  }
   return 0;
 }
 
@@ -34,17 +40,31 @@ MST Kruskals (LabelAdjMat A) {
 
 }
 
-EdgeList createMinHeap(LabelAdjMat A) {
-  EdgeList el;
+HeapEdgeList createMinHeap(LabelAdjMat A) {
+  HeapEdgeList el;
   for (int i = 0; i < MAX; i++) {
     for (int j = i + 1; j < MAX; j++) {
-      insertHeap(&el, i, j, A[i][j]);
+      Edge e = {i, j, A[i][j]};
+      insertHeap(&el, e);
     }
   }
+  return el;
 }
 
-void insertHeap(EdgeList *el, int u, int v, int weight) {
-  el->edge[++el->lastNdx].u = u;
-  el->edge[++el->lastNdx].v = v;
-  el->edge[++el->lastNdx].weight = weight;
+void insertHeap(HeapEdgeList *el, Edge e) {
+  int child, parent;
+  for (
+    child = ++el->lastNdx, parent = (child - 1) / 2;
+
+    e.weight < el->edge[parent].weight && child > 0;
+
+    el->edge[parent] = el->edge[child],
+    child = parent,
+    parent = (child - 1) / 2
+  ) {}
+  el->edge[child] = e;
+}
+
+void rmHeap(HeapEdgeList *el) {
+
 }
